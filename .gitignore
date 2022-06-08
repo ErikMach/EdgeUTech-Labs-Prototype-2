@@ -1,1 +1,4 @@
+.gitignore
 node_modules/
+js/3D_Engine/
+js/THREEm/THREE-rust-wrapper.js
