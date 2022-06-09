@@ -146,7 +146,7 @@ const config = {
 
 const createBlock = (blockName) => {
   const BC = config[blockName];
-console.log(BC);
+
   const dimensions = {};
 
   const p1 = c("path", {"d": paths[BC.shape].draw(BC.shapeSize)});
@@ -211,12 +211,10 @@ svg.dimensions = new Proxy(dimensions, {
     }
     svg.setAttribute("width", tally);
     svg.children[0].children[p]
-console.log();
     o[p] = v;
     return true;
   }
 });
-console.log(svg);
    return svg;
 };
 
