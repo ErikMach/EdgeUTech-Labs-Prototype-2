@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 .gitignore
 node_modules/
 js/3D_Engine/
+=======
+.gitignore
+node_modules/
+js/3D_Engine/
+>>>>>>> c843966a953c948c21b92e0069ac7b4d707bc60f
 js/THREEm/THREE-rust-wrapper.js
