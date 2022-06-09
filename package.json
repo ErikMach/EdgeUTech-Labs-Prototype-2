@@ -1,0 +1,25 @@
+{
+  "name": "edgeutech_labs",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run open",
+    "open": "concurrently \"http-server -a localhost -p 8080\" \"start http://localhost:8080\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErikMach/edgeutechlabs.git"
+  },
+  "author": "ErikMach",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErikMach/edgeutechlabs/issues"
+  },
+  "homepage": "https://github.com/ErikMach/edgeutechlabs#readme",
+  "dependencies": {
+    "concurrently": "^7.2.0",
+    "http-server": "^14.1.0"
+  }
+}
