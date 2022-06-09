@@ -1,0 +1,130 @@
+* {
+  color: var(--inverted-color);
+}
+body {
+  background-color: black;
+}
+:host {
+  --inverted-color: white;
+  --x-box: 400px;
+  --y-box: 300px;
+  --x-axis: 300px;
+  --y-axis: 200px;
+  --y-max: calc(--y-axis - 1.5em);
+}
+.graphCont {
+  position: relative;
+  width: var(--x-box);
+  height: var(--y-box);
+  margin: calc(50vh - 150px) auto;
+  border: 3px solid gray;
+}
+.graphTitleCont {
+  position: absolute;
+  top: 0;
+  left: calc((var(--x-box) - var(--x-axis)) / 2);
+  width: var(--x-axis);
+  height: calc((var(--y-box) - var(--y-axis)) / 2);
+  background-color: blue;
+}
+.yLabelCont {
+  position: absolute;
+  bottom: calc((var(--y-box) - var(--y-axis)) / 2);
+  left: 0;
+  width: calc((var(--x-box) - var(--x-axis)) / 2);
+  height: var(--y-axis);
+  background-color: blue;
+}
+.xLabelCont {
+  position: absolute;
+  bottom: 0;
+  left: calc((var(--x-box) - var(--x-axis)) / 2);
+  width: var(--x-axis);
+  height: calc((var(--y-box) - var(--y-axis)) / 2);
+}
+svg.axes {
+  position: absolute;
+  top: calc((var(--y-box) - var(--y-axis)) / 2);
+  left: calc((var(--x-box) - var(--x-axis)) / 2);
+  width: var(--x-axis);
+  height: var(--y-axis);
+}
+.graphContentCont {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: flex-end;
+
+  position: absolute;
+  top: calc(0.5*(var(--y-box) - var(--x-axis)));
+  left: calc(0.5*(var(--x-box) - var(--y-axis)));
+  height: var(--x-axis);
+  width: var(--y-axis);
+  background-color: pink;
+
+  transform: rotate(-90deg);
+}
+.dataColumn {
+  position: relative;
+  width: calc((var(--y-box) + var(--y-axis)) / 2);
+  height: 30px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.dataColumn > * {
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  text-align: center;
+}
+.dataLabel {
+  position: relative;
+  height: 30px;
+  width: calc((var(--y-box) - var(--y-axis)) / 2);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.dataCont {
+  position: relative;
+  height: 100%;
+  width: var(--y-axis);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+.dataRange, .dataValue {
+  position: relative;
+}
+.dataRange::-webkit-slider-runnable-track {
+  width: 10px;
+  border-radius: 5px;
+}
+#Rin::-webkit-slider-runnable-track {
+  fill: red;
+  cursor: pointer;
+}
+#Rin::-webkit-slider-thumb {
+      width: 10px;
+      -webkit-appearance: none;
+      height: 10px;
+      background: #434343;
+}
+#Gin::-webkit-slider-runnable-track {
+
+}
+#Bin::-webkit-slider-runnable-track {
+
+}
+.dataRange::-ms-fill-lower {
+  background: #3071A9;
+}
+.dataRange::-ms-fill-upper {
+  background: green;
+}

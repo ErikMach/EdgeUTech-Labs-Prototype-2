@@ -1,0 +1,31 @@
+{
+  "config-3D" : {
+  },
+  "models-3D" : {
+    "../../glb/hardware_glb_common/": ["base4x4.glb", "top4x4.glb"],
+    "./": ["model.RGB_LED.glb"]
+  },
+  "config-coding-block" : [
+    {"type": "text", "value":"RGB LED"},
+    {"type": "int", "value": 0, "min": 0, "max": 0},
+    {"type": "int", "value": 0, "min": 0, "max": 0},
+    {"type": "int", "value": 0, "min": 0, "max": 0}
+  ],
+  "coding-function": {
+    "name": "RGB_LED",
+    "args": [
+      {"type": "int", "default": 0, "min": 0, "max": 0},
+      {"type": "int", "default": 0, "min": 0, "max": 0},
+      {"type": "int", "default": 0, "min": 0, "max": 0}
+    ],
+    "function": "(r,g,b) => {...}", "comment": "something like: RGB.getLEDs.forEach(LED => glow(LED));"
+  },
+  "explore": {
+    "0": {
+      "camera": {"position": [0.0, 0.1, 0.01], "lookAt": [0, 0, 0]},
+      "anim": {"top4x4": {"position":[0,0,0]}, "Chipboard":{"position":[-0.00003354529326315969, 0.006070385221391916, -0.00007747599738650024],"rotation":[0,0,0]}},
+      "elems": {}
+    }
+
+  }
+}
