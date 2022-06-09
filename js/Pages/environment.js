@@ -23,7 +23,6 @@ const setPositions = (models) => {
       return false;
     }
   });
-  console.log(webgl.scene);
 
   const changeEnv = (direction) => {
     const i = envPos.list.indexOf(envPos.showing);
