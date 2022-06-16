@@ -1,5 +1,8 @@
 {
   "title": "Desk Lamp",
+  "img": [
+    "Desk_Lamp.webp"
+  ],
   "models": [
     "model.Desk_Lamp.glb"
   ],
