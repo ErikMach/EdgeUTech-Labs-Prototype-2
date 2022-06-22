@@ -27,7 +27,7 @@
       "correct": false,
       "reason": "This won't help Julian finish his homework!"
     }
-  },
+  ],
   "algorithm": [
     {
       "step": "Set the light to OFF"
