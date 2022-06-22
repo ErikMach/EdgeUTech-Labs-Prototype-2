@@ -10,7 +10,10 @@
     "LED",
     "Switch"
   ],
-  "problem": "Julian needs to finish his homework. Unfortunately, his desk lamp has stopped working. Help Julian finish his homework!",
+  "problem": {
+    "problem": "Julian needs to finish his homework. Unfortunately, his desk lamp has stopped working.",
+    "imperative": "Help Julian finish his homework!"
+  },
   "objectives": [
     {
       "objective": "Program a light that Julian can turn on and off.",
@@ -27,7 +30,7 @@
       "correct": false,
       "reason": "This won't help Julian finish his homework!"
     }
-  },
+  ],
   "algorithm": [
     {
       "step": "Set the light to OFF"
