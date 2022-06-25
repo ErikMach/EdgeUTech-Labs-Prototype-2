@@ -33,24 +33,24 @@
   ],
   "algorithm": [
     {
-      "step": "Set the light to OFF"
+      "step": "Set the light to OFF",
       "reason": "We need to make sure the light isn't on first."
     },
     {
-      "step": "Wait until the button is pressed."
+      "step": "Wait until the button is pressed.",
       "reason": "We can't ddo that just yet."
     },
     {
-      "step": "Turn the light on"
+      "step": "Turn the light on",
       "reason": "Something needs to happen once the button is pressed."
     },
     {
-      "step": "Wait until the button is pressed."
+      "step": "Wait until the button is pressed.",
       "reason": "If we repeat now, the light will turn off as soon as it comes on."
     },
     {
-      "step": "Repeat"
+      "step": "Repeat",
       "reason": ""
-    },
+    }
   ]
 }
