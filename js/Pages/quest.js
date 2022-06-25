@@ -204,7 +204,7 @@ const questMenuHandler = (e, i) => {
 const questMenu = () => {
 	const items = [];
 	questItems.forEach(({ blocked, title, folder }, i) => {
-		const src = blocked ? "../res/img/lock.svg" : `./res/quests/${folder}/${folder}.webp`;
+		const src = blocked ? "./res/img/lock.svg" : `./res/quests/${folder}/${folder}.webp`;
 		const t = c("h2", {}, [blocked ? "Blocked" : title]);
 		const img = c("img", { src: src });
 
