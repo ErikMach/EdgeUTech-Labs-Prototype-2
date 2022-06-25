@@ -335,7 +335,7 @@ const questItem = {
 		this.title = questItems[i].title;
 		this.folder = questItems[i].folder;
 		this.background = questItems[i].background;
-		this.url = `../../res/quests/${this.folder}`;
+		this.url = `./res/quests/${this.folder}`;
 		const res = await fetch(`${this.url}/config.${this.folder}.JSON`);
 		this.data = await res.json();
 		this.problem();
