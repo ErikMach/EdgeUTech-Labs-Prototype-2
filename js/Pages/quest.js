@@ -22,8 +22,14 @@ import { createBlock } from "../blockCreation.js";
 
 const questItems = [
 	{ folder: "Desk_Lamp", title: "Lamp", blocked: false, background: "wheat" },
-	{ folder: "Clicker_Counter", title: "Counter", blocked: true },
-	{ folder: "Doorbell", title: "Doorbell", blocked: true },
+	{ folder: "Clicker_Counter", title: "Counter", blocked: false, background: "wheat" },
+	{ folder: "Car", title: "Car", blocked: false, background: "wheat" },
+	{ folder: "Christmas_Lights", title: "Christmas Lights", blocked: false, background: "wheat" },
+	{ folder: "Doorbell", title: "Doorbell", blocked: false, background: "wheat" },
+	{ folder: "Fan", title: "Fan", blocked: false, background: "wheat" },
+	{ folder: "Garage_Door", title: "Garage Door", blocked: false, background: "wheat" },
+	{ folder: "Street_Light", title: "Street Light", blocked: false, background: "wheat" },
+	{ folder: "Washing_Machine", title: "Washing Machine", blocked: false, background: "wheat" },
 	{ folder: "Fan", title: "Fan", blocked: true },
 	{ folder: "Fan", title: "Fan", blocked: true },
 	{ folder: "Fan", title: "Fan", blocked: true },
@@ -343,9 +349,11 @@ const questItem = {
 
 	problem() {
 		const p = c("p", {}, []);
+		const p1 = c("p", {}, []);
 		const txt = c("div", { class: "questText" }, [
 			c("h2", {}, ["Problem:"]),
 			p,
+			p1,
 			c("button", {}, ["Go!"], {
 				click: () => {
 					this.objetive();
@@ -356,7 +364,8 @@ const questItem = {
 		]);
 
 		questModel.parallaxEffect();
-		questWriteText(p, this.data.problem);
+		questWriteText(p, this.data.problem.story);
+		setTimeout(() => {questWriteText(p1, this.data.problem.imperative)}, this.data.problem.story.length*25 + 200);
 		questAddScene(
 			this.title,
 			c("div", { class: "questProblemCont" }, [txt, questModel.init(this.url, this.folder)]),
@@ -399,7 +408,7 @@ const questItem = {
 			return elem;
 		});
 
-		questWriteText(h3, `Choose an appropiate objective:`);
+		questWriteText(h3, `Choose an appropiate objective to ${this.data.problem.imperative.slice(0, 1).toLowerCase()}${this.data.problem.imperative.slice(1, -1)}:`);
 
 		questAddScene(
 			this.title,
@@ -421,7 +430,7 @@ const questItem = {
 	congratulations() {
 		const model = questModel.init(this.url, this.folder);
 		const h1 = c("h1", {}, [`${this.title} Quest Complete!!`]);
-		const button = c("button", {}, ["Return to Quest"], {
+		const button = c("button", {}, ["Return to Quests"], {
 			click: () => {
 				questAddScene("Quest", questMenu(), "#FFF4E2");
 			},
