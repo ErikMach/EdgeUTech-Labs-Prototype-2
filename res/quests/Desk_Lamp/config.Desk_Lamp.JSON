@@ -11,7 +11,7 @@
     "Switch"
   ],
   "problem": {
-    "problem": "Julian needs to finish his homework. Unfortunately, his desk lamp has stopped working.",
+    "story": "Julian needs to finish his homework. Unfortunately, his desk lamp has stopped working.",
     "imperative": "Help Julian finish his homework!"
   },
   "objectives": [
@@ -38,7 +38,7 @@
     },
     {
       "step": "Wait until the button is pressed.",
-      "reason": "We can't ddo that just yet."
+      "reason": "We can't do that just yet."
     },
     {
       "step": "Turn the light on",

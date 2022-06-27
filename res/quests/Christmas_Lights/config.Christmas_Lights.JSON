@@ -1,0 +1,30 @@
+{
+  "title": "Christmas Lights",
+  "hardware": [
+    "RGB LEDs"
+  ],
+  "problem": "",
+  "objectives": [
+    {
+      "objective": "",
+      "correct": true,
+      "reason": ""
+    },
+    {
+      "objective": "",
+      "correct": false,
+      "reason": ""
+    },
+    {
+      "objective": "",
+      "correct": false,
+      "reason": ""
+    }
+  },
+  "algorithm": [
+    {
+      "step": ""
+      "reason": ""
+    }
+  ]
+}
