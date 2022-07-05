@@ -20,6 +20,16 @@ import { GLTFLoader } from "../THREEm/GLTFLoader.js";
 import * as THREE from "../THREEm/three.module.js";
 import { createBlock } from "../blockCreation.js";
 
+// CONSTANTS
+
+const shadow = document.getElementById("questPage").attachShadow({ mode: "open" });
+const link = document.createElement("link");
+link.setAttribute("rel", "stylesheet");
+link.setAttribute("href", "./css/quest-style.css");
+const parent = c("div", { class: "questRoot" });
+shadow.appendChild(link);
+shadow.appendChild(parent);
+
 const questItems = [
 	{ folder: "Desk_Lamp", title: "Lamp", blocked: false, background: "wheat" },
 	{ folder: "Clicker_Counter", title: "Counter", blocked: false, background: "wheat" },
@@ -34,14 +44,37 @@ const questItems = [
 	{ folder: "Fan", title: "Fan", blocked: true },
 	{ folder: "Fan", title: "Fan", blocked: true },
 ];
-// UTILITIES
 
-const questAddScene = (title, body, background, delay = 900) => {
-	const parent = document.getElementById("questPage");
+const codingBlocks = {
+	Control: {
+		color: "#ffab19",
+		blocks: ["if", "if-else"],
+	},
+	Operators: {
+		color: "#40bf4a",
+		blocks: [],
+	},
+	EUBlocks: {
+		color: "#4c97ff",
+		blocks: ["DC-Motor", "LED-Display"],
+	},
+	Variables: {
+		color: "#ff8c1a",
+		blocks: [],
+	},
+	"My Blocks": {
+		color: "#ff6680",
+		blocks: [],
+	},
+};
+
+const addScene = (title, body, background, delay = 900) => {
 	parent.classList.add("questTransitionFadeOut");
+	const cont = document.getElementById("questPage");
 	setTimeout(() => {
 		parent.innerHTML = "";
-		parent.style.backgroundColor = background;
+		console.log(parent);
+		cont.style.backgroundColor = background;
 		const titleBar = c("div", { class: "titleBar" }, [c("h1", {}, [title])]);
 		const codingSpace = c("div", { class: "codingSpace" }, [
 			c("div", { class: "blockSpace" }, [body]),
@@ -53,7 +86,10 @@ const questAddScene = (title, body, background, delay = 900) => {
 	}, delay);
 };
 
-const questWriteText = (elem, text, dur = 25) => {
+const writeText = (elem, text, dur = 25) => {
+	if (!text) {
+		return;
+	}
 	const letterArr = Array.from(text);
 	setTimeout(() => {
 		const interval = setInterval(() => {
@@ -68,7 +104,7 @@ const questWriteText = (elem, text, dur = 25) => {
 	// const int = setInterval(() => {}, 20);
 };
 
-const questDeleteText = (elem) => {
+const deleteText = (elem) => {
 	const letterArr = Array.from(elem.innerText);
 	const interval = setInterval(() => {
 		if (letterArr.length > 0) {
@@ -81,11 +117,11 @@ const questDeleteText = (elem) => {
 	}, 10);
 };
 
-const questEaseMov = (x) => {
+const easeMov = (x) => {
 	return 1 - Math.pow(1 - x, 3);
 };
 
-const questLerp = (x, y, a) => {
+const lerp = (x, y, a) => {
 	return (1 - a) * x + a * y;
 };
 
@@ -166,8 +202,8 @@ class questAlgorithmBlock {
 
 	positionLoop(duration = 200) {
 		const t = (Date.now() - this.time) / duration;
-		const x = questLerp(this.prevX, this.newX, questEaseMov(t));
-		const y = questLerp(this.prevY, this.newY, questEaseMov(t));
+		const x = lerp(this.prevX, this.newX, easeMov(t));
+		const y = lerp(this.prevY, this.newY, easeMov(t));
 		this.setPos(x, y);
 
 		if (t < 1) {
@@ -199,7 +235,7 @@ class questAlgorithmBlock {
 	}
 }
 
-const questMenuHandler = (e, i) => {
+const menuHandler = (e, i) => {
 	const elem = e.currentTarget;
 	elem.classList.add("questElemAnimation");
 	setTimeout(() => {
@@ -219,7 +255,7 @@ const questMenu = () => {
 				click: blocked
 					? undefined
 					: (e) => {
-							questMenuHandler(e, i);
+							menuHandler(e, i);
 					  },
 			})
 		);
@@ -228,7 +264,11 @@ const questMenu = () => {
 };
 
 const questModel = {
-	init(url, folder) {
+	init(url, folder, scale = 1, position = [0, 0, 0], rotation = 0, light = 1) {
+		this.scale = scale;
+		this.position = position;
+		this.rotation = rotation;
+		this.light = light;
 		this.url = url;
 		this.folder = folder;
 		this.parallax = undefined;
@@ -253,27 +293,39 @@ const questModel = {
 	},
 
 	addLights() {
-		const hemiLight = new THREE.HemisphereLight();
-		hemiLight.name = "hemi_light";
-		this.scene.add(hemiLight);
+		// const light1 = new THREE.AmbientLight(0xffffff, 0.2);
+		// light1.name = "ambient_light";
+		// this.scene.add(light1);
 
-		const light1 = new THREE.AmbientLight(0xffffff, 0.8);
-		light1.name = "ambient_light";
-		this.scene.add(light1);
-
-		const light2 = new THREE.DirectionalLight(0xffffff, 0.8 * Math.PI);
-		light2.position.set(0, 2, 1); // ~60º
-		light2.name = "main_light";
+		const light2 = new THREE.DirectionalLight(0xffffff, 0.8 * Math.PI * this.light);
+		light2.position.set(0, 1, 1);
+		light2.lookAt(0, 0, 0);
+		light2.name = "light_one";
 		this.scene.add(light2);
+
+		const light3 = new THREE.DirectionalLight(0xffffff, 0.3 * Math.PI * this.light);
+		light3.position.set(0.1, -0.5, 1);
+		light3.lookAt(0, 0, 0);
+		light3.name = "light_two";
+		this.scene.add(light3);
+
+		const light4 = new THREE.DirectionalLight(0xffffff, 0.3 * Math.PI * this.light);
+		light4.position.set(-1, 0, 2);
+		light4.lookAt(0, 0, 0);
+		light4.name = "light_two";
+		this.scene.add(light4);
 	},
 
 	loadModel() {
 		const loader = new GLTFLoader();
+		const s = this.scale;
+		const p = this.position;
 		loader.load(
 			`${this.url}/model.${this.folder}.glb`,
 			(model) => {
 				this.model = model.scene;
-				this.model.scale.set(6, 6, 6);
+				this.model.scale.set(s, s, s);
+				this.model.position.set(p[0], p[1], p[2]);
 				this.scene.add(this.model);
 			},
 			undefined,
@@ -322,8 +374,9 @@ const questModel = {
 	parallaxEffect() {
 		if (!this.parallax) {
 			this.parallax = (e) => {
+				const { right: r } = this.canvasCont.getBoundingClientRect();
 				this.rotationX = e.clientY / window.innerHeight / 2;
-				this.rotationY = (e.clientX / window.innerWidth) * 1.5;
+				this.rotationY = (e.clientX - r) / window.innerWidth / 2 + this.rotation;
 			};
 			window.onmousemove = this.parallax;
 		} else {
@@ -350,6 +403,7 @@ const questItem = {
 	problem() {
 		const p = c("p", {}, []);
 		const p1 = c("p", {}, []);
+		const { scale, position, rotation, light } = this.data.model;
 		const txt = c("div", { class: "questText" }, [
 			c("h2", {}, ["Problem:"]),
 			p,
@@ -364,11 +418,18 @@ const questItem = {
 		]);
 
 		questModel.parallaxEffect();
-		questWriteText(p, this.data.problem.story);
-		setTimeout(() => {questWriteText(p1, this.data.problem.imperative)}, this.data.problem.story.length*25 + 200);
-		questAddScene(
+		writeText(p, this.data.problem.story);
+
+		setTimeout(() => {
+			writeText(p1, this.data.problem.imperative);
+		}, this.data.problem.story?.length * 25 + 200 || 0);
+
+		addScene(
 			this.title,
-			c("div", { class: "questProblemCont" }, [txt, questModel.init(this.url, this.folder)]),
+			c("div", { class: "questProblemCont" }, [
+				txt,
+				questModel.init(this.url, this.folder, scale, position, rotation, light),
+			]),
 			this.background
 		);
 	},
@@ -400,17 +461,22 @@ const questItem = {
 						e.currentTarget.classList.add("questObjectiveCorrect");
 						btn.style.transform = "scaleX(1)";
 					}
-					questDeleteText(p);
-					questWriteText(p, reason);
+					deleteText(p);
+					writeText(p, reason);
 					e.currentTarget.dataset.clicked = "clicked";
 				},
 			});
 			return elem;
 		});
 
-		questWriteText(h3, `Choose an appropiate objective to ${this.data.problem.imperative.slice(0, 1).toLowerCase()}${this.data.problem.imperative.slice(1, -1)}:`);
+		writeText(
+			h3,
+			`Choose an appropiate objective to ${this.data.problem.imperative
+				.slice(0, 1)
+				.toLowerCase()}${this.data.problem.imperative.slice(1, -1)}:`
+		);
 
-		questAddScene(
+		addScene(
 			this.title,
 			c("div", { class: "questObjetives" }, [txt, c("div", { class: "questObjetivesCont" }, elemArr)]),
 			this.background,
@@ -419,33 +485,37 @@ const questItem = {
 	},
 
 	algorithm() {
-		questAddScene(
+		const { algorithm, model } = this.data;
+		addScene(
 			this.title,
-			questAlgorithm.init(this.data.algorithm, this.url, this.folder),
+			questAlgorithm.init(algorithm, this.url, this.folder, model),
 			this.background,
 			100
 		);
 	},
 
 	congratulations() {
-		const model = questModel.init(this.url, this.folder);
+		const { scale, position, rotation, light } = this.data.model;
+
+		const model = questModel.init(this.url, this.folder, scale, position, rotation, light);
 		const h1 = c("h1", {}, [`${this.title} Quest Complete!!`]);
 		const button = c("button", {}, ["Return to Quests"], {
 			click: () => {
-				questAddScene("Quest", questMenu(), "#FFF4E2");
+				addScene("Quest", questMenu(), "#FFF4E2");
 			},
 		});
 		const btnCont = c("div", { class: "questCongratulationsBtnCont" }, [h1, button]);
 		const cont = c("div", { class: "questCongratulationsContainer" }, [btnCont, model]);
-		questAddScene("Congratulations!!", cont, this.background);
+		addScene("Congratulations!!", cont, this.background);
 	},
 };
 
 const questAlgorithm = {
-	init(data, url, folder) {
+	init(data, url, folder, model) {
 		this.data = data;
 		this.url = url;
 		this.folder = folder;
+		this.model = model;
 		this.state = new Array(data.length).fill(undefined);
 		this.trackBlock;
 		window.addEventListener("resize", () => {
@@ -472,7 +542,7 @@ const questAlgorithm = {
 		});
 		const blockCont = c("div", { class: "questAlgorithmBlockCont" }, blocks);
 		this.txtCont = c("div", {}, [txt, blockCont]);
-		questWriteText(this.h3, "Put the algorithm in order:");
+		writeText(this.h3, "Put the algorithm in order:");
 		return this.txtCont;
 	},
 
@@ -503,6 +573,7 @@ const questAlgorithm = {
 		// FUNCTION TO DOOO DO STUFF
 		// setPosition;
 	},
+
 	stateHandler(e) {
 		const i = this.index;
 		const indexS = this.state.indexOf(e);
@@ -561,28 +632,33 @@ const questAlgorithm = {
 	},
 
 	codeSection() {
-		questDeleteText(this.h3);
+		const { scale, position, rotation, light } = this.model;
+
+		deleteText(this.h3);
 		this.state.forEach((e) => {
 			e.mouseDown = null;
 		});
+
 		const btn = c("button", { class: "questCodeButton" }, ["RUN!"], {
 			click: () => {
 				questItem.congratulations();
 			},
 		});
+
 		const btnCont = c("div", { class: "questCodeButtonCont" }, [
 			btn,
-			questModel.init(this.url, this.folder),
+			questModel.init(this.url, this.folder, scale, position, rotation, light),
 		]);
 
 		const cont = c("div", { class: "questCodeCont" }, [
 			c("div", { class: "questCode" }, [questCoding()]),
 		]);
+
 		this.list.appendChild(btnCont);
 		this.txtCont.appendChild(cont);
 
 		setTimeout(() => {
-			questWriteText(this.h3, "Code the solution: ");
+			writeText(this.h3, "Code the solution: ");
 		}, 100);
 		questModel.parallaxEffect();
 	},
@@ -627,29 +703,6 @@ const questAlgorithm = {
 	},
 };
 
-const codingBlocks = {
-	Control: {
-		color: "#ffab19",
-		blocks: ["if", "if-else"],
-	},
-	Operators: {
-		color: "#40bf4a",
-		blocks: [],
-	},
-	EUBlocks: {
-		color: "#4c97ff",
-		blocks: ["DC-Motor", "LED-Display"],
-	},
-	Variables: {
-		color: "#ff8c1a",
-		blocks: [],
-	},
-	"My Blocks": {
-		color: "#ff6680",
-		blocks: [],
-	},
-};
-
 const questCoding = () => {
 	const code = c("div", { class: "codingSpace" }, [
 		c("div", { class: "blocCodingSpace" }, [
@@ -684,4 +737,4 @@ const questCoding = () => {
 	return code;
 };
 
-questAddScene("Quest", questMenu(), "#FFF4E2");
+addScene("Quest", questMenu(), "#FFF4E2");

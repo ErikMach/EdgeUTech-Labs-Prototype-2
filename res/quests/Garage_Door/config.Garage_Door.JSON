@@ -1,12 +1,13 @@
 {
-	"title": "Christmas Lights",
-	"hardware": ["RGB LEDs"],
+	"title": "Garage Door",
+	"hardware": [""],
 	"problem": "",
 	"model": {
-		"models": ["model.Desk_Lamp.glb"],
-		"scale": 6,
-		"position": [0, 1.5, 0],
-		"rotation": 0
+		"models": ["model.Garage_Door.glb"],
+		"scale": 1,
+		"position": [0, 0.5, 0],
+		"rotation": 0,
+		"light": 0.4
 	},
 	"objectives": [
 		{

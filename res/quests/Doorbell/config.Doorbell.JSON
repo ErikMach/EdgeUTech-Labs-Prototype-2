@@ -1,7 +1,13 @@
 {
-	"title": "Desk Lamp",
-	"img": ["Desk_Lamp.webp"],
-	"model": { "models": ["model.Desk_Lamp.glb"], "scale": 6, "position": [0, 0, 0], "rotation": 1 },
+	"title": "Doorbell",
+	"img": ["Doorbell.webp"],
+	"model": {
+		"models": ["model.Doorbell.glb"],
+		"scale": 8,
+		"position": [0, 1, 0],
+		"rotation": 0,
+		"light": 0.4
+	},
 	"hardware": ["LED", "Switch"],
 	"problem": {
 		"story": "Julian needs to finish his homework. Unfortunately, his desk lamp has stopped working.",

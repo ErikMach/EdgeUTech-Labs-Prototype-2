@@ -1,0 +1,171 @@
+.profileCont {
+	margin: 2rem;
+	margin-top: 4rem;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.coinCont {
+	position: relative;
+	width: 100px;
+	height: 100px;
+}
+
+.coinCont > canvas {
+	width: 100%;
+	height: 100%;
+}
+.imgSec {
+	/* border: 1rem black solid; */
+	position: relative;
+	border-radius: 30px;
+	box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.435);
+	padding: 1rem;
+	margin-left: 2rem;
+	border: 15px solid burlywood;
+	background-image: url("../res/profile/boardTexture.png");
+	background-position: center;
+	background-size: cover;
+}
+
+.imgSec > img {
+	width: 20rem;
+	height: auto;
+	padding: 2rem;
+}
+.imgSec span {
+	display: block;
+	position: absolute;
+	transform: rotate(-10deg);
+	bottom: 0;
+	right: 0;
+	width: 3rem;
+	height: 0.5rem;
+	border-radius: 5px;
+	border: 1px rgba(130, 130, 130, 0.648) solid;
+	box-shadow: 2px 2px 10px 0 black;
+	background-color: white;
+	z-index: 2;
+}
+
+.imgSec span::hover {
+	cursor: col-resize;
+}
+
+.imgLegend {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+}
+.imgLegend > img {
+	width: 3rem;
+	height: 2.5rem;
+	margin: 1rem;
+}
+.imgSec:hover .imgLegend > img {
+	animation: bookAnim 1s 1 ease-in-out;
+}
+.legendText {
+	color: rgba(208, 216, 223, 0.879);
+	font-size: 2rem;
+}
+.boardCanvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.boardCanvas > canvas {
+	width: 100%;
+	height: 100%;
+	display: none;
+}
+
+.dataSec {
+	flex-grow: 1;
+	align-self: baseline;
+	margin-left: 1rem;
+	width: 30rem;
+	height: 20rem;
+	margin-left: 10rem;
+}
+.coinRow {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+}
+
+.dataSec h1 {
+	font-size: 2rem;
+}
+.dataSec h2 {
+	font-weight: 300;
+	margin-left: 1rem;
+}
+
+.name {
+	margin: 0 auto;
+	font-size: 2rem;
+	font-style: oblique;
+	text-decoration: underline;
+	color: rgba(255, 255, 255, 0.955);
+}
+
+.questItemCont > * {
+	text-align: center;
+}
+
+.questItem {
+	position: relative;
+	margin: 1rem;
+	padding: 0.5rem;
+	width: 6rem;
+	height: 6rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 30px;
+	background-color: rgb(245, 222, 179);
+	border: 1px black solid;
+	opacity: 0.9;
+}
+.dataTitle {
+	background-color: rgba(209, 190, 153, 0.875);
+	padding: 0.4rem;
+}
+
+.questItem img {
+	width: 6rem;
+	height: auto;
+	/* opacity: 0.7; */
+}
+
+.questCont {
+	display: grid;
+	grid-template-columns: repeat(5, 0.5fr);
+}
+
+.check {
+	position: absolute;
+	top: 30%;
+	left: 60%;
+	transform: translate(-50%, -50%);
+	opacity: 0.5;
+}
+
+@keyframes bookAnim {
+	from {
+		transform: scaleX(1) scaleY(1);
+	}
+	25% {
+		transform: scaleX(1.2) scaleY(0.8);
+	}
+	50% {
+		transform: scaleX(0.8) scaleY(1.2);
+	}
+	to {
+		transform: scaleX(1) scaleY(1);
+	}
+}

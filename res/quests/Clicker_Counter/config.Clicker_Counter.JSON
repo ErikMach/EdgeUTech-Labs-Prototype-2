@@ -1,56 +1,54 @@
 {
-  "title": "Clicker Counter",
-  "img": [
-    "Clicker_Counter.webp"
-  ],
-  "models": [
-    "model.Clicker_Counter.glb"
-  ],
-  "hardware": [
-    "LED Digital Display",
-    "Switch"
-  ],
-  "problem": {
-    "story": "Julian is trying to count his steps, but he can't keep track in his head.",
-    "imperative": "Help Julian count his steps!"
-  },
-  "objectives": [
-    {
-      "objective": "Program a clicker counter that counts up by 1s.",
-      "correct": true,
-      "reason": "Julian can count just by pressing a button now!"
-    },
-    {
-      "objective": "Program a clicker counter that counts up by 3s.",
-      "correct": false,
-      "reason": "This might be just as tricky as counting in your head."
-    },
-    {
-      "objective": "Program a clicker counter to display the time.",
-      "correct": false,
-      "reason": "This won't help Julian count his steps."
-    }
-  ],
-  "algorithm": [
-    {
-      "step": "Set a variable to 0",
-      "reason": "We need to set out variable first."
-    },
-    {
-      "step": "Display the variable",
-      "reason": "We can't do that just yet."
-    },
-    {
-      "step": "Wait until the button is pressed",
-      "reason": "Something needs to happen once the button is pressed."
-    },
-    {
-      "step": "Add 1 to the variable",
-      "reason": ""
-    },
-    {
-      "step": "Repeat the last 3 steps",
-      "reason": ""
-    }
-  ]
+	"title": "Clicker Counter",
+	"img": ["Clicker_Counter.webp"],
+	"model": {
+		"models": ["model.Clicker_Counter.glb"],
+		"scale": 20,
+		"position": [0, 1, 0],
+		"rotation": 0
+	},
+	"hardware": ["LED Digital Display", "Switch"],
+	"problem": {
+		"story": "Julian is trying to count his steps, but he can't keep track in his head.",
+		"imperative": "Help Julian count his steps!"
+	},
+	"objectives": [
+		{
+			"objective": "Program a clicker counter that counts up by 1s.",
+			"correct": true,
+			"reason": "Julian can count just by pressing a button now!"
+		},
+		{
+			"objective": "Program a clicker counter that counts up by 3s.",
+			"correct": false,
+			"reason": "This might be just as tricky as counting in your head."
+		},
+		{
+			"objective": "Program a clicker counter to display the time.",
+			"correct": false,
+			"reason": "This won't help Julian count his steps."
+		}
+	],
+	"algorithm": [
+		{
+			"step": "Set a variable to 0",
+			"reason": "We need to set out variable first."
+		},
+		{
+			"step": "Display the variable",
+			"reason": "We can't do that just yet."
+		},
+		{
+			"step": "Wait until the button is pressed",
+			"reason": "Something needs to happen once the button is pressed."
+		},
+		{
+			"step": "Add 1 to the variable",
+			"reason": ""
+		},
+		{
+			"step": "Repeat the last 3 steps",
+			"reason": ""
+		}
+	]
 }
