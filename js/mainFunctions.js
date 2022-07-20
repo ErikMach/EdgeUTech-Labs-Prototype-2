@@ -65,6 +65,67 @@ const pageHolder = new Proxy(
 		},
 	}
 );
+
+const writeText = (elem, text, dur = 25) => {
+	if (!text) {
+		return;
+	}
+	const letterArr = Array.from(text);
+	setTimeout(() => {
+		const interval = setInterval(() => {
+			if (letterArr.length > 0) {
+				elem.innerHTML += letterArr.shift();
+			} else {
+				clearInterval(interval);
+			}
+		}, dur);
+	}, 900);
+
+	// const int = setInterval(() => {}, 20);
+};
+
+const deleteText = (elem, dur = 10) => {
+	const letterArr = Array.from(elem.innerText);
+	const interval = setInterval(() => {
+		if (letterArr.length > 0) {
+			elem.innerHTML = letterArr.join("");
+			letterArr.pop();
+		} else {
+			elem.innerText = "";
+			clearInterval(interval);
+		}
+	}, dur);
+};
+
+const easeMov = (x) => {
+	return 1 - Math.pow(1 - x, 3);
+};
+
+const lerp = (x, y, a) => {
+	return (1 - a) * x + a * y;
+};
+
+const cSvg = (tagName, attrs = {}, children = [], events = {}) => {
+	const elem = document.createElementNS("http://www.w3.org/2000/svg", tagName);
+
+	for (const [attr, value] of Object.entries(attrs)) {
+		elem.setAttribute(attr, value);
+	}
+
+	if (Array.isArray(children)) {
+		children.forEach((child) => {
+			elem.appendChild(child);
+		});
+	} else {
+		elem.appendChild(children);
+	}
+
+	for (const [event, fn] of Object.entries(events)) {
+		elem.addEventListener(event, fn, { signal: abort.signal });
+	}
+	return elem;
+};
+
 window.addEventListener(
 	"DOMContentLoaded",
 	() => {

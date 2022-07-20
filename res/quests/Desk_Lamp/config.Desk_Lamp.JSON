@@ -1,7 +1,16 @@
 {
 	"title": "Desk Lamp",
 	"img": ["Desk_Lamp.webp"],
-	"model": { "models": ["model.Desk_Lamp.glb"], "scale": 6, "position": [0, 0, 0], "rotation": 1 },
+	"model": {
+		"models": ["model.Desk_Lamp.glb"],
+		"scale": 6,
+		"position": [0, 0, 0],
+		"rotation": 1,
+		"labels": {
+			"Label_LED": "The lamp uses an LED to give us light",
+			"Label_Switch": "Switch: allows us to turn the light on and off"
+		}
+	},
 	"hardware": ["LED", "Switch"],
 	"problem": {
 		"story": "Julian needs to finish his homework. Unfortunately, his desk lamp has stopped working.",
@@ -26,22 +35,27 @@
 	],
 	"algorithm": [
 		{
+			"type": "block",
 			"step": "Set the light to OFF",
 			"reason": "We need to make sure the light isn't on first."
 		},
 		{
+			"type": "block",
 			"step": "Wait until the button is pressed.",
 			"reason": "We can't do that just yet."
 		},
 		{
+			"type": "block",
 			"step": "Turn the light on",
 			"reason": "Something needs to happen once the button is pressed."
 		},
 		{
+			"type": "block",
 			"step": "Wait until the button is pressed.",
 			"reason": "If we repeat now, the light will turn off as soon as it comes on."
 		},
 		{
+			"type": "repeat",
 			"step": "Repeat",
 			"reason": ""
 		}

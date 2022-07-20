@@ -6,7 +6,11 @@
 		"scale": 8,
 		"position": [0, 1, 0],
 		"rotation": 0,
-		"light": 0.4
+		"light": 0.4,
+		"labels": {
+			"Label_LED": "The lamp uses an LED to give us light",
+			"Label_Switch": "Switch: allows us to turn the light on and off"
+		}
 	},
 	"hardware": ["LED", "Switch"],
 	"problem": {

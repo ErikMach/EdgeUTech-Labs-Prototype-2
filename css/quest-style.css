@@ -1,11 +1,16 @@
 /* QUESTS */
-.questRoot {
-	max-height: 100vh;
-}
+
 .questRoot > * {
 	opacity: 0;
 	animation: fadeIn 500ms 1 linear forwards;
 }
+
+.preventOverflow {
+	overflow: hidden;
+	max-height: calc(100vh - 40px);
+	max-width: calc(100vw - 40px);
+}
+
 .titleBar > h1 {
 	text-align: center;
 }
@@ -89,23 +94,48 @@
 
 .questModelCont {
 	position: relative;
-	width: 40rem;
-	height: 35rem;
+	width: 30rem;
+	height: 60rem;
 	margin-top: 0;
+}
+
+.questCode {
+	display: flex;
+}
+
+.codingModelCont {
+	max-height: 30rem;
 	overflow: hidden;
 }
 
 .questModelCont > canvas {
 	position: absolute;
 	top: 0;
-	width: 40rem;
-	height: 60rem;
+	width: 100%;
+	height: 100%;
+}
+.cssRenderer {
+	overflow: visible !important;
+}
+
+.questModelCont > div {
+	position: absolute;
+	top: 0;
+	width: 100% !important;
+	height: 100% !important;
+}
+
+.questModelCont > div > h1 {
+	font-size: 1rem;
+	max-width: 5rem;
 }
 
 .questTransitionFadeOut * {
 	opacity: 0 !important;
 	transition: opacity 200ms linear;
+	transition: backgroud-color 300ms linear;
 }
+
 .questTransitionFadeIn * {
 	opacity: 1 !important;
 	transition: opacity 200ms linear;
@@ -195,61 +225,295 @@
 	transition: transform 1s linear;
 }
 
-/* QUEST ALGORITHM */
+.questLabel {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
 
+.labelRight {
+	flex-flow: row-reverse;
+	left: 45%;
+	top: -5rem;
+}
+
+.labelRight > .labelVector {
+	transform: rotateY(180deg) rotateX(180deg);
+}
+
+.labelLeft {
+	right: 55%;
+	top: 5rem;
+}
+
+.labelVector {
+	width: 20rem;
+	height: 10rem;
+}
+
+.labelVector > svg {
+	width: 100%;
+	height: 100%;
+	animation: labelVectorAnim 300ms 1 linear forwards;
+}
+
+.labelText {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 8rem;
+	height: 3rem;
+	padding: 1rem;
+	border: 3px black solid;
+	animation: labelAnim 100ms 1 forwards ease-in-out;
+	animation-delay: 300ms;
+	transform: scaleX(0);
+	z-index: 3;
+	border-radius: 5px;
+	background-color: white;
+}
+
+.labelText p {
+	font-size: 0.8rem;
+	font-weight: 600;
+	margin: 0.2rem;
+}
+
+.labelNextBtn {
+	width: 100px;
+	height: 100px;
+}
+
+.howItWorksBtn {
+	position: absolute;
+	bottom: 2rem;
+	right: 2rem;
+	z-index: 3;
+}
+
+/* QUEST ALGORITHM */
 .questAlgorithm {
 	display: flex;
-	justify-content: space-around;
+	overflow: hidden;
+}
+.algorithmCoding {
+	min-width: 66vw;
 }
 
-.questAlgorithmBlockCont {
-	width: 0;
-	cursor: grab;
+.algorithmTitle {
+	margin-left: 5rem;
+	min-height: 2.5rem;
 }
 
-.questAlgorithmTitle {
-	height: 3rem;
+.algorithmCont {
+	width: 20vw;
+	height: 65vh;
 }
 
-.questAlgorithmBlock {
-	display: inline-block;
+/*  */
+/* BLOCK */
+.algorithmBlock {
 	position: absolute;
+	z-index: 10;
 	width: fit-content;
-	top: 0;
-	background-color: rgba(14, 199, 45, 0.715);
-	border: 1px solid black;
-	border-radius: 10px;
-	transition: box-shadow 200ms linear;
-	transition: transform 200ms linear;
-	transition: background-color 200ms linear;
-	width: 20rem;
-	height: 3.5rem;
-	text-align: center;
+	height: fit-content;
 }
 
-.questAlgorithmBlockActive {
-	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.447);
+.algorithmBlock > div {
+	transition: transform 100ms linear;
+	transition: background-color 300ms linear;
+}
+
+.grabbingBlock {
 	transform: scale(1.2);
 	z-index: 5;
 }
 
-.questAlgorithmListCont {
-	min-width: 30rem;
-	height: fit-content;
+.algorithmBlock > div {
+	z-index: 10;
+	cursor: grab;
 }
 
-.questAlgorithmListCont > span {
-	display: block;
-	border-bottom: 2px black solid;
+.algorithmBlock p {
+	text-align: center;
+	font-weight: 600;
+	display: flex;
+	flex-flow: column nowrap;
 }
 
-.questAlgorithm .questModelCont {
-	position: relative;
-	top: 30%;
-	transform: scale(0.4);
+.simpleBlock {
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}
+
+.simpleBlock > div {
+	width: 16.3rem;
+	height: 4.2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 20px;
+	border: 3px black solid;
+	background-color: #6096ff;
+}
+
+.wrongBlock {
+	background-color: red !important;
+}
+
+.wrongArrow {
+	stroke: red;
+}
+
+/* CONDITIONAL BLOCK */
+.conditionalBlock {
+	display: flex;
+	justify-content: center;
+	align-items: top;
+}
+
+.conditionalBody {
+	background-color: aqua;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+	background-color: black;
+	width: 16.9rem;
+	height: 6.82rem;
+	padding: 0.1rem 0.2rem;
+}
+
+.conditionalBorder {
+	width: 16.9rem;
+	height: 6.82rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+	background-color: #76ff60;
+}
+
+.conditionalCont {
+	width: 12rem;
+	height: 4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.algoCursor {
+	position: absolute;
+	width: 30px;
 	opacity: 0;
-	animation: fadeIn 1 1s linear forwards;
+	z-index: 10;
+	animation: fadeIn 500ms linear 1;
+	transition: opacity 500ms linear;
 }
+
+.algoCursorDisappear {
+	opacity: 0 !important;
+}
+
+.algoCursor > img {
+	width: 100%;
+	height: 100%;
+}
+
+/* REPEAT BLOCK */
+/* .repeatBlock {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+} */
+.repeatBlock > div {
+	border-radius: 100%;
+	height: 6rem;
+	width: 6rem;
+	background-color: #f3f630;
+	border: 3px black solid;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.arrow {
+	fill: none;
+	stroke: black;
+	stroke-width: 3;
+	fill: none;
+	stroke-linecap: round;
+	/* stroke-dasharray: 50;
+	stroke-dashoffset: 50; */
+	/* animation: arrowPrueba 1s linear infinite; */
+}
+
+.arrow > path {
+	fill: none;
+	/* transition: stroke-dashoffset 1s linear; */
+}
+
+.blockArrow {
+	height: 2.6rem;
+	width: auto;
+}
+
+.conditionalArrow,
+.conditionalArrowR {
+	position: relative;
+	bottom: 0.8rem;
+	width: 6.3rem;
+	height: auto;
+}
+.conditionalArrow {
+	right: 0.7rem;
+}
+
+.conditionalArrowR {
+	left: 0.7rem;
+	transform: rotateY(180deg);
+}
+
+.conditionalNo > p,
+.conditionalYes > p {
+	transition: opacity 200ms linear;
+}
+
+.conditionalYes,
+.conditionalNo {
+	position: relative;
+	top: 1rem;
+}
+
+.hideText {
+	opacity: 0 !important;
+}
+
+.arrowLabelActive {
+	opacity: 1 !important;
+}
+
+/* .arrowCont > svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.arrowCont path {
+	width: 100%;
+	height: 100%;
+}
+.arrowCont path {
+	fill: black;
+	stroke: black;
+} */
+/*  */
+
+/* CODING SECTION */
 
 .blockMenuCont {
 	position: relative;
@@ -305,12 +569,16 @@
 	display: flex;
 }
 
-.questCodeButton {
+.questButton {
 	cursor: pointer;
 	padding: 0.5rem 2rem;
 	font-size: large;
 	height: fit-content;
 	border-radius: 10px;
+}
+
+.questCodeCont {
+	max-height: ;
 }
 
 .questCodeButton:hover {
@@ -320,10 +588,14 @@
 
 .questCodeButtonCont {
 	display: flex;
-	height: 10rem;
 	justify-content: center;
 	align-items: center;
 }
+
+.questCodeButtonCont > button {
+	margin: 2rem;
+}
+
 .questCongratulationsContainer {
 	display: flex;
 	justify-content: center;
@@ -462,5 +734,26 @@
 
 	to {
 		transform: translateY(0%) rotateZ(360deg);
+	}
+}
+@keyframes labelVectorAnim {
+	from {
+		stroke-dasharray: 200;
+		stroke-dashoffset: 200;
+	}
+
+	to {
+		stroke-dasharray: 200;
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes labelAnim {
+	from {
+		transform: scale(0);
+	}
+
+	to {
+		transform: scale(1);
 	}
 }

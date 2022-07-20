@@ -5,7 +5,11 @@
 		"models": ["model.Clicker_Counter.glb"],
 		"scale": 20,
 		"position": [0, 1, 0],
-		"rotation": 0
+		"rotation": 0,
+		"labels": {
+			"Label_LED": "The lamp uses an LED to give us light",
+			"Label_Switch": "Switch: allows us to turn the light on and off"
+		}
 	},
 	"hardware": ["LED Digital Display", "Switch"],
 	"problem": {
@@ -31,24 +35,61 @@
 	],
 	"algorithm": [
 		{
-			"step": "Set a variable to 0",
-			"reason": "We need to set out variable first."
+			"type": "block",
+			"step": "First Step",
+			"reason": "this is not right"
 		},
 		{
-			"step": "Display the variable",
-			"reason": "We can't do that just yet."
+			"type": "block",
+			"step": "Second Step. Inside the main block",
+			"reason": "This is not right dumbass. Also a little longer to know how it would fit."
 		},
 		{
-			"step": "Wait until the button is pressed",
-			"reason": "Something needs to happen once the button is pressed."
-		},
-		{
-			"step": "Add 1 to the variable",
-			"reason": ""
-		},
-		{
-			"step": "Repeat the last 3 steps",
-			"reason": ""
+			"type": "conditional",
+			"step": "First Conditional",
+			"tree": {
+				"yes": [
+					{
+						"type": "block",
+						"step": "First YES. Inside the first conditional branch ",
+						"reason": "This is not right!!"
+					},
+
+					{
+						"type": "conditional",
+						"step": "Second CONDITIONAL.",
+						"reason": "This is not right dumbass. Also a little longer to know how it would fit.",
+						"tree": {
+							"yes": [
+								{
+									"type": "block",
+									"step": "First YES of the second order conditional. ",
+									"reason": "This is not right dumbass. Also a little longer to know how it would fit."
+								},
+								{
+									"type": "block",
+									"step": "Second YES inside second order condit.",
+									"reason": "This is not right!.  Also a little longer to know how it would fit."
+								}
+							],
+							"no": [
+								{
+									"type": "block",
+									"step": "first NO inside a aconditional, inside a conditional. ",
+									"reason": "This is not right dumbass. Also a little longer to know how it would fit."
+								}
+							]
+						}
+					}
+				],
+				"no": [
+					{
+						"type": "repeat",
+						"step": "REPEAT",
+						"reason": "This is not right dumbass. Also a little longer to know how it would fit."
+					}
+				]
+			}
 		}
 	]
 }

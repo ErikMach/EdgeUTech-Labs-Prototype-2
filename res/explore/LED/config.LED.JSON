@@ -1,0 +1,30 @@
+{
+	"description": {
+		"title": "LED",
+		"paragraph": "Phones, TVs, Christmas lights - coloured lights are everwhere. An RGB LED combines the primary colours of light to produce any colour imaginable!. A combination of a single Red, Green and Blue LED put together in a housing that allows the selection of more colours by combining each coloured light."
+	},
+
+	"uses": [
+		{
+			"tag": "LED",
+			"model": "model.Desk_Lamp.glb",
+			"labels": ["Label_LED"],
+			"config": { "scale": 6, "position": [0, 0, 0], "rotation": 1 },
+			"description": "Leds are used in desk lamps to help do homework"
+		},
+		{
+			"tag": "LEDs",
+			"model": "model.Christmas_Lights.glb",
+			"labels": [],
+			"description": "Christmas lights uses LEDs to dress christmast trees "
+		}
+	],
+	"animation": { "description": "This is a description for the animation section" },
+	"coding": { "description": "This is a description for the animation section" },
+	"complete": {
+		"unlocked": [
+			{ "name": "Desk Lamp", "model": "model.Desk_Lamp.glb" },
+			{ "name": "Christmas Light", "model": "model.Christmas_Lights.glb" }
+		]
+	}
+}

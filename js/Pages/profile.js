@@ -24,24 +24,6 @@ class QuestItem {
 	}
 }
 
-const writeText = (elem, text, dur = 25) => {
-	if (!text) {
-		return;
-	}
-	const letterArr = Array.from(text);
-	setTimeout(() => {
-		const interval = setInterval(() => {
-			if (letterArr.length > 0) {
-				elem.innerHTML += letterArr.shift();
-			} else {
-				clearInterval(interval);
-			}
-		}, dur);
-	}, 900);
-
-	// const int = setInterval(() => {}, 20);
-};
-
 const profileCont = () => {
 	const ctainer = c("div", { class: "profileCont" });
 };
