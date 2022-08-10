@@ -31,6 +31,7 @@ const configureLockageChildren = (index, hardware) => {
 };
 
 const configureExplore = () => {
+	// QUITAR
 	techTree.forEach((row, i) => {
 		document.getElementById("explorePage").appendChild(
 			c(
@@ -44,6 +45,7 @@ const configureExplore = () => {
 							style: `flex:1 1 0; background-image: url("./res/hardware/${hardware
 								.split(/\s/g)
 								.join("_")}/topDown.${hardware.split(/\s/g).join("_")}.webp")`,
+							id: hardware,
 						},
 						configureLockageChildren(i, hardware),
 						{
@@ -83,3 +85,7 @@ const blurBott = (e) => {
 };
 
 document.getElementById("explorePage").addEventListener("scroll", blurBott, { passive: true });
+
+// QUITAR
+change("explore");
+document.getElementById("RGB LED").dispatchEvent(new Event("click"));

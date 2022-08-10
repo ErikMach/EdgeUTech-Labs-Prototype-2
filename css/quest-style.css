@@ -130,13 +130,13 @@
 	max-width: 5rem;
 }
 
-.questTransitionFadeOut * {
+.questTransitionFadeOut > * {
 	opacity: 0 !important;
 	transition: opacity 200ms linear;
 	transition: backgroud-color 300ms linear;
 }
 
-.questTransitionFadeIn * {
+.questTransitionFadeIn > * {
 	opacity: 1 !important;
 	transition: opacity 200ms linear;
 	transition: box-shadow 50ms linear;
@@ -313,11 +313,35 @@
 
 /*  */
 /* BLOCK */
+.algorithmGridCont {
+	border: 4px dashed black;
+	border-radius: 20px;
+	width: fit-content;
+	margin-left: 2rem;
+	min-height: 2.5rem;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.algorithmGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	margin: 1rem 1rem;
+	width: 40rem;
+	height: 400px;
+}
+
 .algorithmBlock {
 	position: absolute;
-	z-index: 10;
 	width: fit-content;
 	height: fit-content;
+	z-index: 10;
+}
+.algorithmBlock * {
+	transition: background-color 500ms linear !important;
 }
 
 .algorithmBlock > div {
@@ -340,6 +364,8 @@
 	font-weight: 600;
 	display: flex;
 	flex-flow: column nowrap;
+	margin: 0 1rem;
+	font-size: 0.7rem;
 }
 
 .simpleBlock {
@@ -348,16 +374,18 @@
 	justify-content: center;
 	align-items: center;
 }
-
 .simpleBlock > div {
-	width: 16.3rem;
-	height: 4.2rem;
+	background-color: #6096ff;
+}
+
+.simpleBlockBody {
+	width: 11.41rem;
+	height: 2.94rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border-radius: 20px;
-	border: 3px black solid;
-	background-color: #6096ff;
+	border-radius: 14px;
+	border: 2px black solid;
 }
 
 .wrongBlock {
@@ -382,14 +410,14 @@
 	align-items: center;
 	clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 	background-color: black;
-	width: 16.9rem;
-	height: 6.82rem;
+	width: 11.83rem;
+	height: 4.76rem;
 	padding: 0.1rem 0.2rem;
 }
 
 .conditionalBorder {
-	width: 16.9rem;
-	height: 6.82rem;
+	width: 11.83rem;
+	height: 4.774rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -410,7 +438,8 @@
 	width: 30px;
 	opacity: 0;
 	z-index: 10;
-	animation: fadeIn 500ms linear 1;
+	opacity: 1 !important;
+	/* animation: fadeIn 500ms linear 1; */
 	transition: opacity 500ms linear;
 }
 
@@ -423,18 +452,45 @@
 	height: 100%;
 }
 
-/* REPEAT BLOCK */
-/* .repeatBlock {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-} */
+.wrongMark {
+	stroke: red;
+	fill: rgba(255, 0, 0, 0.051);
+	stroke-width: 2;
+	stroke-dasharray: 10;
+	stroke-dashoffset: 10;
+	position: absolute;
+	filter: drop-shadow(0 0 0.75rem rgb(255, 0, 0));
+	animation: wrongMarkAnim 1s infinite linear;
+}
+.wrongMarkRemove {
+	animation: wrongMarkRemoveAnim 2s infinite linear forwards;
+}
+
+.wrongMarkConditional {
+	width: 250px;
+	height: 100px;
+}
+
+.wrongMarkBlock {
+	width: 250px;
+	height: 100px;
+	stroke-linecap: round;
+}
+
+.wrongMarkRepeat {
+	width: 150px;
+	height: 150px;
+}
+
 .repeatBlock > div {
-	border-radius: 100%;
-	height: 6rem;
-	width: 6rem;
 	background-color: #f3f630;
-	border: 3px black solid;
+}
+
+.repeatBlockBody {
+	border-radius: 100%;
+	height: 4.5rem;
+	width: 4.5rem;
+	border: 2px black solid;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -457,35 +513,38 @@
 }
 
 .blockArrow {
-	height: 2.6rem;
+	height: 1.82rem;
 	width: auto;
 }
 
 .conditionalArrow,
 .conditionalArrowR {
 	position: relative;
-	bottom: 0.8rem;
-	width: 6.3rem;
+	width: 4.41rem;
 	height: auto;
 }
+
 .conditionalArrow {
-	right: 0.7rem;
 }
 
 .conditionalArrowR {
-	left: 0.7rem;
+	/* left: 0.7rem; */
+
 	transform: rotateY(180deg);
 }
 
 .conditionalNo > p,
 .conditionalYes > p {
 	transition: opacity 200ms linear;
+	position: relative;
+	bottom: 0.7rem;
 }
 
 .conditionalYes,
 .conditionalNo {
 	position: relative;
-	top: 1rem;
+	margin-top: 1.7rem;
+	/* top: 1.7rem; */
 }
 
 .hideText {
@@ -496,6 +555,55 @@
 	opacity: 1 !important;
 }
 
+.wrongStructureCont {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	margin-left: 5rem;
+}
+
+.restoreStructureBtn {
+	margin-left: 2rem;
+	transition: transform 500ms ease-in-out;
+}
+
+.structureMessage {
+	font-size: 1rem;
+	min-height: 1rem;
+	min-width: 8.18rem;
+}
+.rightStructureMessage {
+	margin-left: 5rem;
+}
+
+.algorithmGuide {
+	z-index: 0;
+}
+
+/* GUIDE */
+
+.guideBlock {
+	z-index: -1;
+	top: 50%;
+	left: 50%;
+}
+
+.simpleBlockBody.blockGuide {
+	background-color: transparent;
+	border: 1px dashed black;
+}
+
+.conditionalGuideBody {
+	width: 11.83rem;
+	height: 4.76rem;
+	padding: 0.1rem 0.2rem;
+}
+
+.repeatBlockBody.guideBlock {
+	background-color: transparent;
+	border: 1px dashed black;
+}
+/*  */
 /* .arrowCont > svg {
 	position: absolute;
 	top: 0;
@@ -525,6 +633,7 @@
 	align-items: center;
 	box-shadow: 1px 0 2px black;
 }
+
 .blockMenuItem {
 	position: relative;
 	width: 100%;
@@ -535,10 +644,12 @@
 	justify-content: center;
 	align-items: center;
 }
+
 .blockMenuItem:hover {
 	cursor: pointer;
 	background-color: #c9b6c9;
 }
+
 .blockMenuItemCircle {
 	position: relative;
 	width: 25px;
@@ -546,6 +657,7 @@
 	border-radius: 25px;
 	box-shadow: inset 0 0 3px black;
 }
+
 .blockMenuItem > a {
 	font-size: 12px;
 	margin: 3px 0 0 0;
@@ -600,12 +712,15 @@
 	display: flex;
 	justify-content: center;
 }
+
 .questCongratulationsBtnCont {
 	text-align: center;
 }
+
 .questCongratulationsBtnCont > * {
 	margin: 2rem;
 }
+
 .questCongratulationsBtnCont > button {
 	cursor: pointer;
 	max-width: 10rem;
@@ -615,6 +730,7 @@
 	border-radius: 10px;
 	font-weight: 700;
 }
+
 .questCongratulationsBtnCont > button:hover {
 	box-shadow: 2px 2px 0 0 black;
 	transform: translate(-2px, -2px);
@@ -668,6 +784,7 @@
 		opacity: 1;
 	}
 }
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -736,6 +853,7 @@
 		transform: translateY(0%) rotateZ(360deg);
 	}
 }
+
 @keyframes labelVectorAnim {
 	from {
 		stroke-dasharray: 200;
@@ -756,4 +874,32 @@
 	to {
 		transform: scale(1);
 	}
+}
+
+@keyframes wrongMarkAnim {
+	from {
+		stroke-dashoffset: 40;
+	}
+
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
+@keyframes wrongMarkRemoveAnim {
+	50% {
+		fill: transparent;
+	}
+	to {
+		stroke-dashoffset: 3000;
+		stroke-dasharray: 1000;
+		stroke-width: 0;
+		fill: transparent;
+	}
+}
+
+.btnPrueba {
+	position: fixed;
+	bottom: 2rem;
+	left: 1rem;
 }

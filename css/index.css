@@ -468,7 +468,13 @@ body {
 	background-color: cadetblue;
 }
 
+.repeatArrowContainer {
+	position: relative;
+	z-index: 0;
+}
+
 .repeatArrow {
 	position: absolute;
 	background-color: black !important;
+	z-index: 0;
 }

@@ -71,8 +71,8 @@ const codingBlocks = {
 };
 
 const addScene = (title, body, background, delay = 900) => {
-	parent.classList.add("questTransitionFadeOut");
 	const cont = document.getElementById("questPage");
+	cont.classList.add("questTransitionFadeOut");
 	cont.style.transition = "background-color 300ms linear";
 	cont.style.backgroundColor = background;
 
@@ -84,7 +84,8 @@ const addScene = (title, body, background, delay = 900) => {
 		const codingSpace = c("div", { class: "codingSpace" }, [
 			c("div", { class: "blockSpace" }, [body]),
 		]);
-		parent.classList.add("questTransitionFadeIn");
+		cont.classList.remove("questTransitionFadeOut");
+		cont.classList.add("questTransitionFadeIn");
 
 		parent.appendChild(titleBar);
 		parent.appendChild(codingSpace);
@@ -335,14 +336,21 @@ const questAlgorithmSection = {
 		this.url = url;
 		this.folder = folder;
 		this.model = model;
-		this.algorithm = graphAlgorithm.init(this.data, () => {
-			this.codeSection();
-		});
 		this.h3 = c("h1", { class: "algorithmTitle" }, [" "]);
-		writeText(this.h3, `Put the algorithm in order: `);
-		this.cont = c("div", { class: "algorithmCoding" }, [this.h3]);
+		this.grid = c("div", { class: "algorithmGrid" });
+		this.gridCont = c("div", { class: "algorithmGridCont" }, [this.grid]);
+		this.cont = c("div", { class: "algorithmCoding" }, [this.h3, this.gridCont]);
+		this.algorithm = graphAlgorithm.init(
+			this.data,
+			() => {
+				this.codeSection();
+			},
+			this.grid,
+			this.cont
+		);
 
 		this.elem = c("div", { class: "questAlgorithm" }, [this.cont, this.algorithm]);
+		writeText(this.h3, `Put the algorithm in order: `);
 		return this.elem;
 	},
 
@@ -367,6 +375,7 @@ const questAlgorithmSection = {
 			c("div", { class: "questCode" }, [questCoding()]),
 			btnCont,
 		]);
+		this.gridCont.remove();
 		this.cont.appendChild(cont);
 		this.cont.appendChild(btnCont);
 
@@ -558,5 +567,4 @@ const questItem = {
 addScene("Quest", questMenu(), "white");
 // change("quest");
 // questItem.init(1);
-
 /* 	THIS IS NOT THE ORIGINAL VERSION. See Ln121 	*/
