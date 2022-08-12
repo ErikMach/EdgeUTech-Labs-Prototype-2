@@ -47,53 +47,180 @@
 	"explore": {
 		"0": {
 			"camera": { "position": [0.0, 0.1, 0.01], "lookAt": [0, 0, 0] },
-			"anim": {
-				"top4x4": {
-					"props": {},
-					"config": {
-						"position": [0, 0, 0]
-					}
-				},
 
-				"RGB_LED": {
-					"config": {
-						"duration": 1000
-					},
+			"anims": {
+				"start": [
+					{
+						"all": {
+							"props": {
+								"position": { "to": [0, 0, 0] }
+							},
 
-					"props": {
-						"position": [-0.00003354529326315969, 0.006070385221391916, -0.00007747599738650024],
-						"rotation": [0, -1.57, 0]
-					}
-				}
-			},
-
-			"static_anim": {
-				"0": {
-					"props": {
-						"top4x4": { "position": [1, 0, 0], "rotation": [0, 0, 0] },
-						"base4x4": { "position": [1, 0, 0], "rotation": [0, 0, 0] }
-					},
-					"config": {
-						"mode": "inAndOut",
-						"duration": 2000
-					}
-				},
-
-				"1": {
-					"props": {
-						"top4x4": { "position": [0, 0, 0], "rotation": [0, 0, 0] },
-						"base4x4": { "position": [0, 0, 0], "rotation": [0, 0, 0] },
-						"RGB_LED": {
-							"position": [-0.00003354529326315969, 0.006070385221391916, -0.00007747599738650024],
-							"rotation": [0, 0, 0]
+							"config": {
+								"duration": 1000
+							}
 						}
 					},
-					"config": {
-						"duration": 2000
+					{
+						"all": {
+							"props": {
+								"rotation": {
+									"to": [-1, -1, 0]
+								}
+							},
+							"config": {
+								"duration": 2000,
+								"mode": "out"
+							}
+						}
+					},
+					{
+						"all": {
+							"props": {
+								"rotation": {
+									"to": [-1, -1, 0]
+								}
+							},
+							"config": {
+								"duration": 2000,
+								"mode": "out"
+							}
+						},
+						"top4x4": {
+							"props": {
+								"position": {
+									"to": [0, 0.02, 0]
+								}
+							},
+							"config": {
+								"duration": 1000
+							}
+						},
+						"base4x4": {
+							"props": {
+								"position": {
+									"to": [0, -0.02, 0]
+								}
+							},
+							"config": {
+								"duration": 1000
+							}
+						}
+					},
+					{
+						"top4x4": {
+							"props": {
+								"position": {
+									"to": [0, 0, 0]
+								}
+							},
+							"config": {
+								"mode": "inAndOut",
+								"duration": 1000
+							}
+						},
+						"base4x4": {
+							"props": {
+								"position": {
+									"to": [0, 0, 0]
+								}
+							},
+							"config": {
+								"mode": "inAndOut",
+								"duration": 1000
+							}
+						}
 					}
-				}
+				],
+
+				"end": [
+					{
+						"all": {
+							"props": {
+								"rotation": { "to": [0, 0, 0] }
+							},
+							"config": {
+								"mode": "gentile",
+								"duration": 1000
+							}
+						},
+						"top4x4": {
+							"config": {
+								"position": {
+									"to": [0, 0, 0]
+								}
+							},
+							"props": {
+								"mode": "out",
+								"duration": 500
+							}
+						},
+						"base4x4": {
+							"config": {
+								"position": {
+									"to": [0, 0, 0]
+								}
+							},
+							"props": {
+								"mode": "out",
+								"duration": 500
+							}
+						}
+					},
+					{
+						"all": {
+							"config": {
+								"duaration": 1000
+							},
+							"props": {
+								"opacity": { "to": 0 }
+							}
+						}
+					}
+				]
 			},
+
 			"elems": {}
-		}
+		},
+
+		"1": {
+			"camera": { "position": [0.0, 0.1, 0.01], "lookAt": [0, 0, 0] },
+
+			"anim": {
+				"start": [
+					{
+						"top4x4": {
+							"props": {
+								"rotation": {
+									"to": [-1.5, 0, 0]
+								}
+							},
+							"config": {
+								"duration": 2000,
+								"mode": "linear"
+							}
+						}
+					},
+					{
+						"top4x4": {
+							"props": {
+								"rotation": {
+									"from": [-1.5, 0, 0],
+									"to": [1, 0, 0]
+								}
+							},
+							"config": {
+								"duration": 2000,
+								"mode": "linear"
+							}
+						}
+					}
+				]
+			},
+
+			"elems": {}
+		},
+
+		"2": {}
 	}
 }

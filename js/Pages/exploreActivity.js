@@ -13,108 +13,147 @@ link.setAttribute("href", "./css/explore-activity-style.css");
 shadow.appendChild(link);
 shadow.appendChild(parent);
 
-const addScene = (body, background = "#f0f0f0", delay = 200) => {
-	sceneRoot.classList.add("exploreTransitionFadeOut");
+const addScene = (body, background = "#f0f0f0", delay = 700) => {
 	const cont = document.getElementById("exploreActivityPage");
+
+	cont.classList.add("questTransitionFadeOut");
 	cont.style.transition = "background-color 300ms linear";
 	cont.style.backgroundColor = background;
 
 	setTimeout(() => {
-		sceneRoot.innerHTML = "";
+		parent.innerHTML = "";
 		cont.style.transition = "";
-		sceneRoot.classList.add("exploreTransitionFadeIn");
-		sceneRoot.appendChild(body);
+
+		const codingSpace = c("div", { class: "codingSpace" }, [
+			c("div", { class: "blockSpace" }, [body]),
+		]);
+
+		cont.classList.remove("exploreTransitionFadeOut");
+		cont.classList.add("exploreTransitionFadeIn");
+
+		parent.appendChild(codingSpace);
 	}, delay);
 };
 
 // ANIMATION GENERATOR
 
 class ModelAnimation {
-	constructor(model, obj = "all", prop, from = "current", to, duration = 1000, mode = "linear") {
+	constructor(model, child = "all", prop, from = "current", to, duration = 1000, mode = "linear") {
 		this.model = model;
+		this.child = child;
 		this.prop = prop;
-		this.obj = obj;
-		this.from = from;
 		this.to = to;
 		this.duration = duration;
 		this.mode = mode;
+		this.from = from;
+		//
 	}
 
 	init() {
 		this.t = Date.now();
-		// const from = this.from ? this.model.models[this.obj][this.prop] : this.from;
-		this.from = this.from = "current" ? [0, 0, 0] : this.from;
-		// if (typeof from === "object") {
-		// 	this.from = Object.keys(from).map((e, i) => {
-		// 		console.log(e);
-		// 	});
-		// }
+		this.getFrom();
+
+		this.getTimingFunc();
 		this.animationLoop();
 	}
 
 	animationLoop() {
 		const t = (Date.now() - this.t) / this.duration;
-		if (t <= 1) {
-			if (Array.isArray(this.from)) {
-				const newVal = [];
-				this.from.forEach((e, i) => {
-					console.log("TIMING F: ", this);
-					newVal.push(lerp(e, this.to[i], this.timingFuction(t)));
-				});
-				// const newVal = this.from.map((e, i) => {
-				// 	console.log(e);
-				// 	console.log(e);
 
-				// 	return;
-				// });
-				// const newVal = this.from.map((e, i) => lerp(e, this.to[i], this.timingFunction(t)));
-				this.model.setModelProp(this.obj, this.prop, newVal);
-			} else {
-				const newVal = lerp(this.from, this.to, this.timingFunction(t));
-				this.model.setModelProp(this.obj, this.prop, newVal);
-			}
+		if (t <= 1) {
+			const timingFunc = this.getTimingFunc();
+
+			const newVal = this.from.map((e, i) => {
+				return lerp(e, this.to[i], timingFunc(t));
+			});
+
+			this.model.setModelProp(this.child, this.prop, newVal);
 
 			this.animFrame = requestAnimationFrame(() => {
 				this.animationLoop();
 			});
 		} else {
+			this.model.setModelProp(this.child, this.prop, this.to);
 			cancelAnimationFrame(this.animFrame);
 		}
 	}
 
-	linear(x) {
-		return x;
-	}
-
-	elastic(x) {
-		const c4 = (2 * Math.PI) / 3;
-		return x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
-	}
-
-	gentile(x) {
-		return 1 - Math.pow(1 - x, 5);
-	}
-
-	inAndOut(x) {
-		return -(Math.cos(Math.PI * x) - 1) / 2;
-	}
-
-	timingFuction(t) {
+	getTimingFunc() {
 		switch (this.mode) {
 			case "linear":
-				return this.linear(t);
+				return function (x) {
+					return x;
+				};
 
 			case "elastic":
-				return this.elastic(t);
+				return function (x) {
+					const c4 = (2 * Math.PI) / 3;
+
+					return x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * c4) + 1;
+				};
 
 			case "gentile":
-				return this.gentile(t);
+				return function (x) {
+					return 1 - Math.pow(1 - x, 5);
+				};
 
 			case "inAndOut":
-				return this.inAndOut(t);
+				return function (x) {
+					return x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2;
+				};
+
+			case "inAndOutExpo":
+				return function (x) {
+					return x === 0
+						? 0
+						: x === 1
+						? 1
+						: x < 0.5
+						? Math.pow(2, 20 * x - 10) / 2
+						: (2 - Math.pow(2, -20 * x + 10)) / 2;
+				};
+
+			case "inAndOutElastic":
+				return function (x) {
+					const c5 = (2 * Math.PI) / 4.5;
+
+					return x === 0
+						? 0
+						: x === 1
+						? 1
+						: x < 0.5
+						? -(Math.pow(2, 20 * x - 10) * Math.sin((20 * x - 11.125) * c5)) / 2
+						: (Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * c5)) / 2 + 1;
+				};
+
+			case "out":
+				return function (x) {
+					return 1 - Math.pow(1 - x, 4);
+				};
 
 			default:
-				return this.linear(t);
+				return function (x) {
+					return x;
+				};
+		}
+	}
+
+	getFrom() {
+		const objToArr = (obj) => {
+			if (typeof obj === "object") {
+				const myObj = Object.keys(obj)
+					.map((n) => obj[n])
+					.filter((e) => typeof e === "number");
+				return myObj;
+			}
+			return obj;
+		};
+
+		if (this.from === "current") {
+			const obj =
+				this.child === "all" ? this.model.group[this.prop] : this.model.models[this.child][this.prop];
+
+			this.from = objToArr(obj);
 		}
 	}
 
@@ -144,23 +183,11 @@ class ExploreModel {
 	constructor(modelsData) {
 		this.modelsData = modelsData;
 		this.models = {};
+		this.group = new THREE.Group();
+
 		this.initScene();
 		this.initLights();
 		this.initModels();
-		// setTimeout(() => {
-		// 	Object.keys(this.models).forEach((e) => {
-		// 		const model = this.models[e];
-		// 		const anim = new ModelAnimation(model, "rotation.x", 0, 1, 2000, "gentile");
-		// 		anim.init();
-		// 	});
-
-		// 	// this.setModelProps("top4x4", "position.x", 0.0001);
-		// }, 100);
-		// this.setSceneProps();
-		// this.camera.rotation.x = 0;
-		// -1.4
-
-		// this.setCamera(camera);
 		this.render();
 		this.elem = c("div", { class: "modelCont" }, [
 			this.renderer.domElement,
@@ -198,40 +225,49 @@ class ExploreModel {
 		this.scene.add(new THREE.AxesHelper(5));
 	}
 
-	initModels() {
-		Object.keys(this.modelsData).forEach((name) => {
+	async initModels() {
+		const getModel = (name) => {
 			const url = `${this.modelsData[name].path}/model.${name}.glb`;
 			const loader = new GLTFLoader();
 			const dracoLoader = new DRACOLoader();
 			dracoLoader.setDecoderPath("./js/THREEm/");
 			loader.setDRACOLoader(dracoLoader);
 
-			loader.load(
-				url,
-				(res) => {
-					const glb = res.scene.children[0];
-					this.models[name] = glb;
-					this.scene.add(glb);
-				},
-				() => {},
-				(err) => console.error(err)
-			);
+			return new Promise((resolve, reject) => {
+				loader.load(
+					url,
+					(res) => {
+						resolve(res.scene.children[0]);
+					},
+					() => {},
+					(err) => {
+						console.error(err);
+						reject(error);
+					}
+				);
+			});
+		};
 
-			// const { props } = this.modelsData;
+		const keys = Object.keys(this.modelsData);
+
+		for (let name of keys) {
+			const glb = await getModel(name);
+			this.models[name] = glb;
 			const { props } = this.modelsData[name];
+			this.group.add(glb);
+			// this.scene.add(glb);
 
 			Object.keys(props).forEach((elem) => {
-				setTimeout(() => {
-					this.setModelProp(name, elem, props[elem]);
-				}, 100);
+				this.setModelProp(name, elem, props[elem]);
 			});
-		});
+		}
+		this.scene.add(this.group);
 		this.scene.add(new THREE.AxesHelper(5));
 	}
 
 	initLights() {
 		const lux = 0.15 * Math.PI;
-		this.scene.add(new THREE.AmbientLight(0xffffff, 1));
+		this.scene.add(new THREE.AmbientLight(0xffffff, 0.1));
 
 		const dirLight0 = new THREE.DirectionalLight(0xffffff, lux / 2);
 		dirLight0.position.set(0, 0.8, 0);
@@ -248,6 +284,10 @@ class ExploreModel {
 		const dirLight2 = new THREE.DirectionalLight(0xffffff, lux);
 		dirLight2.position.set(-0.866, 0.8, -0.5);
 		this.scene.add(dirLight2);
+
+		const dirLight3 = new THREE.DirectionalLight(0xffffff, lux);
+		dirLight3.position.set(0, -0.2, -1);
+		this.scene.add(dirLight3);
 	}
 
 	// RENDER LOOP
@@ -282,10 +322,8 @@ class ExploreModel {
 
 	setModelProp(elem = "all", propArr, value) {
 		if (elem === "all") {
-			Object.keys(this.models).forEach((e) => {
-				this.setProp(e, propArr, value, this.models);
-			});
-			return;
+			const collection = { all: this.group };
+			this.setProp(elem, propArr, value, collection);
 		}
 
 		this.setProp(elem, propArr, value, this.models);
@@ -300,6 +338,7 @@ class ExploreModel {
 			if (e !== elem) {
 				return;
 			}
+			// if(elem)
 
 			let prop = collection[e];
 			const newProps = propArr.split(".");
@@ -315,47 +354,88 @@ class ExploreModel {
 			}
 		});
 	}
+
+	initParallax() {
+		window.onmousemove = (e) => {
+			this.onParallaxMove(e);
+		};
+	}
+
+	cancelParallax() {
+		console.log("PARALLAX CANCELLED");
+		window.onmousemove = () => {};
+	}
+
+	onParallaxMove({ clientX, clientY }) {
+		if (!this.mouseInitPos) {
+			this.mouseInitPos = { x: clientX, y: clientY };
+			this.prevRot = { x: this.group.rotation.x, y: this.group.rotation.y };
+		}
+		const { x, y } = this.mouseInitPos;
+
+		const rotY = (clientX + y / 2) / window.innerWidth;
+		const rotX = (clientY + x / 2) / window.innerWidth;
+
+		this.group.rotation.x = this.prevRot.x + lerp(-0.3, 0.3, rotX);
+		this.group.rotation.y = this.prevRot.y + lerp(-0.3, 0.3, rotY);
+
+		// console.log(this.mouseInitPos);
+	}
 }
 
 const exploreActivity = {
 	async init(hardware) {
 		this.hardware = hardware.replace(" ", "_");
+
 		this.data = await fetch(`./res/hardware/${this.hardware}/configtwo.${this.hardware}.JSON`)
 			.then((d) => d.json())
 			.catch((e) => console.error(e));
-		this.model = new ExploreModel(this.data.config_3D.models);
+
 		this.description();
 	},
 
 	description() {
 		const { title: t, description: d } = this.data.config_3D;
-		const title = c("h1", {}, []);
+		const title = c("h1", { class: "exploreTitle" }, [t]);
 		const descrip = c("p", {}, []);
 		const text = c("div", { class: "descriptionTxt" }, [title, descrip]);
 
 		const btn = c("button", { class: "exploreBtn descriptionBtn" }, ["Explore"], {
 			click: () => {
 				this.uses();
+				this.model.cancelParallax();
 			},
 		});
 
 		const description = c("div", { class: "description" }, [text, btn]);
+		this.model = new ExploreModel(this.data.config_3D.models);
+
+		parent.appendChild(this.model.elem);
+		parent.appendChild(this.model.elem);
 		addScene(description);
-		parent.appendChild(this.model.elem);
-		parent.appendChild(this.model.elem);
 
 		setTimeout(() => {
-			this.getStaticAnim(0);
-			this.initStaticAnim();
-		}, 100);
+			this.getAnims(0);
+			this.initAnim("start");
+		}, 200);
 
-		writeText(title, t, 40);
 		setTimeout(() => {
-			writeText(descrip, d, 10);
+			writeText(descrip, d, 5);
 		}, 1000);
+
+		setTimeout(() => {
+			this.model.initParallax();
+		}, 5000);
 	},
 
-	uses() {},
+	uses() {
+		this.initAnim("end");
+		const title = c("div", { class: "usesTitle" }, [c("h1", { class: "exploreTitle" }, ["USES"])]);
+
+		addScene(title);
+		// this.model;
+		// writeText(title, "USES", 25);
+	},
 
 	labels() {},
 
@@ -365,51 +445,62 @@ const exploreActivity = {
 
 	completion() {},
 
-	initStaticAnim() {
-		const anim = this.staticAnim;
-		let t = 0;
+	getAnims(index) {
+		this.anims = {};
 
-		anim.forEach((e) => {
+		const { anims } = this.data.explore[index];
+		const arr = Object.keys(anims);
+
+		for (let name of arr) {
+			const elem = anims[name].map((animArr) => this.getAnimStep(animArr));
+			this.anims[name] = elem;
+		}
+	},
+
+	getAnimStep(arr) {
+		const myArr = [];
+
+		Object.keys(arr).forEach((child) => {
+			myArr.push(this.getAnimItem(arr[child], child));
+		});
+
+		return myArr;
+	},
+
+	getAnimItem({ config, props }, child) {
+		//
+
+		const animArr = [];
+		const mode = config?.mode;
+		const duration = config?.duration;
+
+		Object.keys(props).map((prop) => {
+			const propVals = props[prop];
+			const to = propVals.to;
+			const from = propVals?.from ? propVals.from : "current";
+
+			animArr.push(new ModelAnimation(this.model, child, prop, from, to, duration, mode));
+		});
+
+		return animArr;
+	},
+
+	initAnim(tag) {
+		const anim = this.anims[tag];
+		console.log("ANIM", anim);
+		let t = 100;
+
+		anim.forEach((step, i) => {
 			setTimeout(() => {
-				e.forEach((item) => {
-					item.init();
+				step.forEach((item) => {
+					item.forEach((e) => {
+						e.init();
+					});
 				});
 			}, t);
-			t += e[0].duration;
+			console.log("STEP: ", step);
+			t += step[0][0].duration;
 		});
-	},
-
-	getStaticAnim(index) {
-		this.staticAnim = [];
-		const { static_anim: anims } = this.data.explore[index];
-
-		Object.keys(anims).forEach((e) => {
-			this.getStaticAnimItem(anims[e]);
-		});
-	},
-
-	getStaticAnimItem({ props, config }) {
-		const animArr = [];
-		const { mode, duration, from } = config;
-		// console.log("MODE: ", mode);
-		console.log("PROPS: ", props);
-		let obj;
-		let prop;
-		let to;
-
-		Object.keys(props).forEach((item) => {
-			const p = props[item];
-			obj = item;
-
-			Object.keys(p).forEach((e) => {
-				prop = e;
-				to = p[e];
-
-				const anim = new ModelAnimation(this.model, obj, prop, from, to, duration, mode);
-				animArr.push(anim);
-			});
-		});
-		this.staticAnim.push(animArr);
 	},
 };
 
