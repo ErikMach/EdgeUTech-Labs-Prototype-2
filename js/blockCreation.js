@@ -163,9 +163,7 @@ const config = {
 
 const createBlock = (blockName) => {
 	const BC = config[blockName];
-
 	const dimensions = {};
-
 	const p1 = c("path", { d: paths[BC.shape].draw(BC.shapeSize) });
 	p1.dataset.length = 108;
 	const g1 = c("g", { class: BC.shapeClass ? `shapePath ${BC.shapeClass}` : "shapePath" }, [p1]);
@@ -271,6 +269,7 @@ const createBlock = (blockName) => {
 		},
 		[gM]
 	);
+
 	svg.dimensions = new Proxy(dimensions, {
 		set(o, p, v) {
 			let tally = 0;

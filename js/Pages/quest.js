@@ -536,6 +536,7 @@ const questItem = {
 
 	algorithm() {
 		const { algorithm, model } = this.data;
+
 		addScene(
 			this.title,
 			questAlgorithmSection.init(algorithm, this.url, this.folder, model),

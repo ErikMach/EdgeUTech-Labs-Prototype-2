@@ -382,10 +382,12 @@ body {
 .nameCont > h1 {
 	text-align: right;
 }
+
 .nameCont > * {
 	flex: 1 1 0;
 	position: relative;
 }
+
 .nameCont > input.nameField {
 	min-width: 50px;
 	padding: 0 0.5ch;
@@ -395,9 +397,11 @@ body {
 	background-color: transparent;
 	border: none;
 }
+
 .nameCont > input.nameField:focus-visible {
 	outline: none;
 }
+
 .demoBtn {
 	position: relative;
 	top: 0;

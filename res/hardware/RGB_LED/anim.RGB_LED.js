@@ -4,7 +4,8 @@ const ranges = {};
 
 const animate = (e, func) => {
 	const target = e.composedPath()[0];
-	target.labels[0].textContent = target.value;
+	console.log(e.target.value);
+	// target.labels[0].textContent = target.value;
 	func(getColorData());
 };
 
@@ -40,18 +41,18 @@ const changeVal = (e, func) => {
 const createColorGraph = (func) => {
 	const graphTitleCont = c("div", {
 		id: id,
-		className: "graphTitleCont",
+		class: "graphTitleCont",
 		textContent: "Mix the colours!",
 	});
-	const xLabelCont = c("div", { className: "xLabelCont" });
-	const yLabelCont = c("div", { className: "yLabelCont" });
+	const xLabelCont = c("div", { class: "xLabelCont" });
+	const yLabelCont = c("div", { class: "yLabelCont" });
 
-	const graphContentCont = c("div", { className: "graphContentCont" });
+	const graphContentCont = c("div", { class: "graphContentCont" });
 
 	["R", "G", "B"].forEach((color) => {
 		const dataValue = c(
 			"label",
-			{ className: "dataValue", htmlFor: `${color}in`, textContent: "0", contentEditable: "true" },
+			{ class: "dataValue", htmlFor: `${color}in`, textContent: "0", contentEditable: "true" },
 			[],
 			{
 				mouseDown: (e) => {
@@ -66,13 +67,14 @@ const createColorGraph = (func) => {
 					});
 				},
 				input: (e) => {
+					console.log("INPUT! ");
 					changeVal(e, func);
 				},
 			}
 		);
 		const dataRange = c(
 			"input",
-			{ id: `${color}in`, className: "dataRange", type: "range", value: "0", min: "0", max: "255" },
+			{ id: `${color}in`, class: "dataRange", type: "range", value: "0", min: "0", max: "255" },
 			[],
 			{
 				input: (e) => {
@@ -80,14 +82,14 @@ const createColorGraph = (func) => {
 				},
 			}
 		);
-		const dataCont = c("div", { className: "dataCont" }, [dataValue, dataRange]);
-		const dataLabel = c("div", { className: "dataLabel", textContent: color });
-		const dataColumn = c("div", { className: "dataColumn" }, [dataLabel, dataCont]);
+		const dataCont = c("div", { class: "dataCont" }, [dataValue, dataRange]);
+		const dataLabel = c("div", { class: "dataLabel", textContent: color });
+		const dataColumn = c("div", { class: "dataColumn" }, [dataLabel, dataCont]);
 		graphContentCont.appendChild(dataColumn);
 		ranges[`${color}in`] = dataRange;
 	});
 
-	const graphCont = c("div", { className: "graphCont" }, [
+	const graphCont = c("div", { class: "graphCont" }, [
 		graphTitleCont,
 		xLabelCont,
 		yLabelCont,
@@ -107,7 +109,7 @@ const createAnim = (func) => {
 
 	const styleLink = document.createElement("link");
 	styleLink.setAttribute("rel", "stylesheet");
-	styleLink.setAttribute("href", "./anim.css");
+	styleLink.setAttribute("href", "./res/hardware/RGB_LED/anim.RGB_LED.css");
 
 	const fragShadow = docFrag.attachShadow({ mode: "closed" });
 	fragShadow.appendChild(styleLink);
