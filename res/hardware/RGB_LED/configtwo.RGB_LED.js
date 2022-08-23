@@ -21,85 +21,48 @@ export default {
 		},
 	},
 
-	config_coding_block: [
-		{
-			type: "text",
-			value: "RGB LED",
-		},
-		{
-			type: "int",
-			value: 0,
-			min: 0,
-			max: 0,
-		},
-		{
-			type: "int",
-			value: 0,
-			min: 0,
-			max: 0,
-		},
-		{
-			type: "int",
-			value: 0,
-			min: 0,
-			max: 0,
-		},
-	],
-
-	coding_function: {
-		name: "RGB_LED",
-		args: [
+	coding_block: {
+		config: [
+			{
+				type: "text",
+				value: "RGB LED",
+			},
 			{
 				type: "int",
-				default: 0,
+				value: 0,
 				min: 0,
 				max: 0,
 			},
 			{
 				type: "int",
-				default: 0,
+				value: 0,
 				min: 0,
 				max: 0,
 			},
 			{
 				type: "int",
-				default: 0,
+				value: 0,
 				min: 0,
 				max: 0,
 			},
 		],
-
-		function: (r, g, b) => {
-			for (let i = 0; i < 2; i++) {
-				[
-					[-0.52, 0.14, -0.085],
-					[-0.48, 0.14, -0.085],
-					[-0.44, 0.14, -0.085],
-				].forEach((arr, i) => {
-					const sprite = new THREE.Sprite(
-						new THREE.SpriteMaterial({
-							map: new THREE.TextureLoader().load("./res/spark.png"),
-							useScreenCoordinates: false,
-							color: 0xff0000,
-							blending: THREE.CustomBlending,
-							blendEquation: THREE.AddEquation,
-							blendSrc: THREE.OneMinusDstAlphaFactor,
-							blendDst: THREE.OneMinusSrcAlphaFactor,
-						})
-					);
-
-					sprite.id = keyCounter();
-					sprite.scale.set(0.07, 0.07, 0.1 / 32); // imageWidth, imageHeight
-					sprite.position.fromArray(arr); //set(-0.48,0.18,-0.14);
-					const colorArr = [0, 0, 0];
-					colorArr[i] = 1;
-					sprite.material.color.setRGB(colorArr[0], colorArr[1], colorArr[2]);
-					scene.children[2].add(sprite);
-				});
+		// Needs to be bound to the svg when it's created or somthing....
+		func: () => {
+			const inputs = this.getElementsByClassName("inputCont");
+			const values = [];
+			for (let i=0; i<input.length; i++) {
+				values.push(inputs[i].value);
 			}
-		},
+			return values;
+		}
+	},
 
-		comment: "something like: RGB.getLEDs.forEach(LED => glow(LED));",
+	function_3D: (r, g, b) => {
+			const brightness = (r + g + b)/(3*255);
+			const normalisedColors = [r, g, b].map(c => c/255);
+			// engine.setEmissive(mesh_name, normalisedColors, brightness);
+			// engine.setGlow(mesh_name, brightness);
+			console.log("RGB is glowing", normalisedColors, "at", brightness);			
 	},
 
 	explore: {

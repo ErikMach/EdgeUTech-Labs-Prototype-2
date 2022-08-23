@@ -742,8 +742,9 @@ const exploreActivity = {
 	animation() {
 		this.model.setSceneProp("controls", "enabled", false);
 		const { createAnim } = this.animFunctions;
-		const myFunc = () => {};
-		const a = createAnim(myFunc);
+// "myFunc" will be the `3D animation function` straight from this.data
+// N.B. solo para los outputs:
+		const a = createAnim(this.data.function_3D);
 		const title = c("h1", { class: "exploreTitle" });
 		const nexBtn = c("button", { class: "exploreBtn labelsBtn" }, ["Next"], {
 			click: () => {
