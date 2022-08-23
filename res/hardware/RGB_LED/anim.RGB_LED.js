@@ -5,10 +5,23 @@ let docFrag;
 let graphCont;
 
 const animate = (e, func) => {
-	const target = e.composedPath()[0];
-	console.log(e.target.value);
+	// console.log(e.currentTarget);
+	const c = getColorData();
+	// const target = e.composedPath()[0];
+	const input = e.currentTarget;
+	const labels = graphCont.getElementsByTagName("label");
+
+	for (let label of labels) {
+		if (label.getAttribute("htmlfor") === input.getAttribute("id")) {
+			label.innerHTML = input.value;
+		}
+	}
+
+	graphCont.querySelector(
+		".graphContentCont"
+	).style.backgroundColor = `rgb(${c[0]},${c[1]},${c[2]})`;
 	// target.labels[0].textContent = target.value;
-	func(getColorData());
+	func(c);
 };
 
 const getColorData = () => {
@@ -54,7 +67,7 @@ const createColorGraph = (func) => {
 	["R", "G", "B"].forEach((color) => {
 		const dataValue = c(
 			"label",
-			{ class: "dataValue", for: `${color}in`, textContent: "0", contentEditable: "true" },
+			{ class: "dataValue", htmlfor: `${color}in`, textContent: "0", contentEditable: "true" },
 			[],
 			{
 				mouseDown: (e) => {

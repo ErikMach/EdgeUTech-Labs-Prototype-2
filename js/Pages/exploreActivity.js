@@ -589,7 +589,7 @@ const exploreActivity = {
 		this.animFunctions = await import(`/res/hardware/${this.hardware}/anim.${this.hardware}.js`);
 		this.model = new ExploreModel(this.data.config_3D.models, this.hardware);
 		this.THREE = THREE;
-		this.labels();
+		this.description();
 	},
 
 	description() {
@@ -677,13 +677,6 @@ const exploreActivity = {
 		this.getAnims(2);
 		this.initAnim("start");
 
-		console.log("MODEL", this.model);
-
-		setTimeout(() => {
-			const space = this.model.models["LED"].getObjectByName("circuitry");
-			space.color = new THREE.Color("rgb(0,255, 0)");
-			console.log("CIRCUITRY: ", space);
-		}, 1000);
 		// QUITAR!!
 		// setTimeout(() => {
 		// 	onNextSection();
@@ -701,10 +694,11 @@ const exploreActivity = {
 			m.animSceneProp("camera", "zoom", "current", 1.1, 2000, "inAndOut");
 			m.animSceneProp("camera", "position", "current", [-0.02, 0.1, 0.01], 2000, "gentile");
 			m.animSceneProp("controls", "target", m.controls.target, m.controls.target0, 2000, "gentile");
-			m.controls.enabled = false;
 			this.labelList.forEach((e) => e.classList.add("inactiveExploreLabel"));
 			// this.model.initParallax();
 			this.animation();
+			m.controls.enabled = false;
+
 			// setTimeout(() => {
 			// 	this.model.initParallax();
 			// }, 2000);
@@ -770,7 +764,7 @@ const exploreActivity = {
 	},
 
 	animation() {
-		// this.model.controls.enabled = true;
+		this.model.controls.enabled = false;
 
 		const data = this.data.coding_function;
 		const sectionData = this.data.explore[3];
@@ -800,7 +794,7 @@ const exploreActivity = {
 		data.initAnim.call(this);
 
 		setTimeout(() => {
-			this.model.initParallax();
+			// this.model.initParallax();
 		}, 2000);
 		// GENERALICE
 		setTimeout(() => {
