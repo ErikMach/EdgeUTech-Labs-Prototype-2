@@ -12,8 +12,8 @@ export default {
 				path: "/res/glb/hardware_glb_common",
 				props: {},
 			},
-			RGB_LED: {
-				path: "/res/hardware/RGB_LED",
+			LED: {
+				path: "/res/hardware/LED",
 				props: {
 					position: [-0.00003354529326315969, 0.006070385221391916, -0.00007747599738650024],
 				},
@@ -47,7 +47,7 @@ export default {
 	],
 
 	coding_function: {
-		name: "RGB_LED",
+		name: "LED",
 		args: [
 			{
 				type: "int",
@@ -68,35 +68,92 @@ export default {
 				max: 0,
 			},
 		],
+		// RETURNS VALUES OF INPUT
+		//
 
-		function: (r, g, b) => {
-			for (let i = 0; i < 2; i++) {
-				[
-					[-0.52, 0.14, -0.085],
-					[-0.48, 0.14, -0.085],
-					[-0.44, 0.14, -0.085],
-				].forEach((arr, i) => {
-					const sprite = new THREE.Sprite(
-						new THREE.SpriteMaterial({
-							map: new THREE.TextureLoader().load("./res/spark.png"),
-							useScreenCoordinates: false,
-							color: 0xff0000,
-							blending: THREE.CustomBlending,
-							blendEquation: THREE.AddEquation,
-							blendSrc: THREE.OneMinusDstAlphaFactor,
-							blendDst: THREE.OneMinusSrcAlphaFactor,
-						})
-					);
+		create_block: {},
 
-					sprite.id = keyCounter();
-					sprite.scale.set(0.07, 0.07, 0.1 / 32); // imageWidth, imageHeight
-					sprite.position.fromArray(arr); //set(-0.48,0.18,-0.14);
-					const colorArr = [0, 0, 0];
-					colorArr[i] = 1;
-					sprite.material.color.setRGB(colorArr[0], colorArr[1], colorArr[2]);
-					scene.children[2].add(sprite);
-				});
+		//QUITAR -->  Initialice animation if necessary
+		// const space = this.model.group.getObjectByName("led");
+		initAnim() {
+			const space = this.model.group.getObjectByName("LED_bulb");
+
+			this.animLight = new this.THREE.PointLight(0xfffff, 1, 0);
+			this.animLight.position.set(0.005, 0.01, 0);
+			space.add(this.animLight);
+			this.animLight.castShadow = true;
+
+			this.animLight.shadow.mapSize.width = 512; // default
+			this.animLight.shadow.mapSize.height = 512; // default
+			this.animLight.shadow.camera.near = 0.5; // default
+			this.animLight.shadow.camera.far = 500;
+
+			// this.sprites = [];
+			// space.add(this.animLight);
+			// for (let i = 0; i < 2; i++) {
+			// 	[
+			// 		[-0.52, 0.14, -0.085],
+			// 		[-0.48, 0.14, -0.085],
+			// 		[-0.44, 0.14, -0.085],
+			// 	].forEach((arr, i) => {
+			// 		const sprite = new this.THREE.Sprite(
+			// 			new this.THREE.SpriteMaterial({
+			// 				map: new this.THREE.TextureLoader().load("./res/hardware/RGB_LED/spark.png"),
+			// 				useScreenCoordinates: false,
+			// 				color: 0xff0000,
+			// 				blending: this.THREE.CustomBlending,
+			// 				blendEquation: this.THREE.AddEquation,
+			// 				blendSrc: this.THREE.OneMinusDstAlphaFactor,
+			// 				blendDst: this.THREE.OneMinusSrcAlphaFactor,
+			// 			})
+			// 		);
+			// 		sprite.scale.set(0.08, 0.08, 0.1 / 32); // imageWidth, imageHeight
+			// 		sprite.position.fromArray(arr); //set(-0.48,0.18,-0.14);
+			// 		const colorArr = [0, 0, 0];
+			// 		colorArr[i] = 1;
+			// 		sprite.material.color.setRGB(colorArr[0], colorArr[1], colorArr[2]);
+			// 		this.sprites.push(sprite);
+			// 		space.add(sprite);
+			// 		// space.add(sprite);
+			// 		// this.scene.children[2].add(sprite);
+			// 		// if (!this.scene.children[2].userData.sprites) {
+			// 		// 	this.scene.children[2].userData.sprites = [];
+			// 		// }
+			// 	});
+			// }
+			// const zoom = this.labelList[0];
+			// zoom.removeAttribute("class");
+			// zoom.innerHTML = "Zoom In!";
+			// zoom.style.color = "white";
+			// zoom.onclick = () => {
+			// 	console.log("clicked!");
+			// };
+		},
+
+		function(i) {
+			console.log();
+			if (i === 1) {
+				this.cancelAnim = true;
+				this.animLight.intensity = 0;
 			}
+
+			if (!this.cancelAnim) {
+				this.animLight.intensity = lerp(0, 100, i);
+			}
+			// console.log(this.animLight);
+			// this.sprites.forEach((sprite) => {
+			// 	const sF = (1 * r + 1 * g + 1 * b) / (255 * 3) + 0.4; //normalised sizeFactor + 1/10
+			// 	sprite.material.color.setRGB(r / 255, g / 255, b / 255);
+			// 	sprite.scale.set(1 * sF, 1 * sF, (5 * sF) / 112); // smallest: [0.4, 0.4, 1/56]
+			// 	sprite.position.y = 0.2;
+			// });
+			// this.animLight.color = new this.THREE.Color(`rgb(${r}, ${g}, ${b})`);
+			// // console.log("RGB", (r + g + b) / 765);
+			// this.animLight.intensity = lerp(0.5, 5, (parseInt(r) + parseInt(g) + parseInt(b)) / 765);
+			// this.title.style.color = `rgb(${255 - r}, ${255 - g}, ${255 - b})`;
+			// this.model.lights.forEach((light) => {
+			// 	light.color = new this.THREE.Color(`rgb(${data[0]}, ${data[1]}, ${data[2]})`);
+			// });
 		},
 
 		comment: "something like: RGB.getLEDs.forEach(LED => glow(LED));",
@@ -398,6 +455,8 @@ export default {
 								position: {
 									to: [0, 0, 0],
 								},
+								rotation: { to: [-1, -0.6, 0] },
+								scale: { to: [1.7, 1.7, 1.7] },
 							},
 							config: {
 								duration: 2000,
@@ -407,7 +466,7 @@ export default {
 						base4x4: {
 							props: {
 								position: {
-									to: [0, 0, 0],
+									to: [0, -0.05, 0],
 								},
 								rotation: {
 									to: [0, 0, 0],
@@ -415,21 +474,21 @@ export default {
 							},
 							config: {
 								duration: 2000,
-								mode: "gentile",
+								mode: "elastic",
 							},
 						},
 						top4x4: {
 							props: {
 								position: {
-									to: [0, 0, 0],
+									to: [0.05, 0.05, 0],
 								},
 								rotation: {
-									to: [0, 0, 0],
+									to: [-1, 0, 0],
 								},
 							},
 							config: {
 								duration: 2000,
-								mode: "gentile",
+								mode: "elastic",
 							},
 						},
 					},
@@ -438,32 +497,27 @@ export default {
 			data: {
 				labels: [
 					{
-						label: "led",
+						label: "Empty_Resistor",
 						content:
-							"This single light contains 3 LEDs. Can you spot them? One Red, one Green and one Blue.<br>These are the 3 primary colors of light.",
-						position: [-0.65, 0, -0.07],
+							"This is an empty resistor bla bla bla resistors are boring and this one is emplty of joy",
+						position: [0, -0.003, 0],
 					},
 					{
-						label: "connection",
-						content:
-							"This single light contains 3 LEDs. Can you spot them? One Red, one Green and one Blue.<br>These are the 3 primary colors of light.",
-						position: [0, 0, 1],
+						label: "circuitry",
+						content: "Circuitry is more interesting since it have cables and stuff",
+						position: [0, -0.03, 0],
 					},
 					{
-						label: "chip",
-						content:
-							"This single light contains 3 LEDs. Can you spot them? One Red, one Green and one Blue.<br>These are the 3 primary colors of light.",
-						position: [0, 0, 0.45],
+						label: "LED_bulb",
+						content: "This is the led bulb",
+						position: [0.005, 0.01, 0],
 					},
 				],
 			},
 		},
 		3: {
-			anims: {
-				data: {
-					title: "",
-				},
-			},
+			title: "Change the intensity!",
+			anims: {},
 		},
 	},
 };

@@ -120,6 +120,7 @@ const config = {
 			{ type: "childSpace" },
 		],
 	},
+
 	"if-else": {
 		shape: "command-triple",
 		innerConfig: [
@@ -131,6 +132,7 @@ const config = {
 			{ type: "childSpace" },
 		],
 	},
+
 	"DC-Motor": {
 		shape: "command-single",
 		shapeSize: 450,
@@ -141,6 +143,7 @@ const config = {
 			{ type: "input", subtype: "circular", subsubtype: "int", range: { min: 0, max: 255 } },
 		],
 	},
+
 	"LED-Display": {
 		shape: "command-single",
 		shapeSize: 260,
@@ -150,6 +153,7 @@ const config = {
 			{ type: "text", value: "on" },
 		],
 	},
+
 	times: {
 		shape: "boolean",
 		shapeSize: 96,
@@ -285,4 +289,130 @@ const createBlock = (blockName) => {
 	return svg;
 };
 
-export { createBlock };
+const createBlockPrueba = (params) => {
+	const BC = params.args;
+	const blockName = params.blockName;
+
+	const dimensions = {};
+	const p1 = c("path", { d: paths[BC.shape].draw(BC.shapeSize) });
+	p1.dataset.length = 108;
+	const g1 = c("g", { class: BC.shapeClass ? `shapePath ${BC.shapeClass}` : "shapePath" }, [p1]);
+
+	const gM = c("g", { class: "mainPathCont", transform: "translate(1 1)" }, [g1]);
+
+	const offset = { x: 8, y: 24 }; //position of first element (usually text)
+	const textHeight = blockName === "BetterTech" ? 0 : 14;
+	const inputHeight = 32;
+
+	BC.forEach((item, index) => {
+		switch (item.type) {
+			case "input":
+				switch (item.subtype) {
+					case "boolean":
+						offset.x += 16;
+						const p = c("path", { d: paths.boolean.draw(16) });
+						p.dataset.length = 16;
+						const gs = c(
+							"g",
+							{ class: "inputPath", transform: `translate(${offset.x} ${offset.y - inputHeight / 2})` },
+							[p]
+						);
+						gM.appendChild(gs);
+						offset.x += 64;
+						//dimensions[index] = ;
+						break;
+					case "circular":
+						const r = c("rect", {
+							class: "",
+							rx: 16,
+							ry: 16,
+							x: 0,
+							y: 0,
+							width: paths.circular.draw(0),
+							height: 32,
+						});
+						const gs1 = c(
+							"g",
+							{ class: "", transform: `translate(${offset.x} ${offset.y - inputHeight / 2})` },
+							[r]
+						);
+						gM.appendChild(gs1);
+						offset.x += 48;
+						break;
+					case "menu":
+						const r1 = c("rect", {
+							class: "",
+							rx: 4,
+							ry: 4,
+							x: 0,
+							y: 0,
+							width: getSVGTextWidthMax(item.opts),
+							height: 32,
+						});
+						const gs2 = c(
+							"g",
+							{ class: "", transform: `translate(${offset.x} ${offset.y - inputHeight / 2})` },
+							[r1, createSVGSelectMenu(item.opts)]
+						);
+						gM.appendChild(gs2);
+						offset.x += 48 + getSVGTextWidthMax(item.opts);
+						break;
+					default:
+						console.warn(item.type.subtype, "is not a valid type of input.");
+				}
+				break;
+			case "text":
+				const text = c(
+					"text",
+					{
+						textContent: item.value,
+						x: 0,
+						y: textHeight,
+						transform: `translate(${item.value === "BetterTech" ? 15 : offset.x} ${
+							offset.y - textHeight / 2
+						})`,
+					},
+					[]
+				); //adjust offset-y because of text height
+				gM.appendChild(text);
+				offset.x += getSVGTextWidth(item.value) + 8;
+				break;
+			case "childSpace":
+				const g2 = c(
+					"g",
+					{ class: "childSpace", transform: `translate(16 ${offset.y === 17 ? 47 : 105})` },
+					[]
+				);
+				gM.appendChild(g2);
+				offset.y = 87;
+				offset.x = 8;
+				break;
+		}
+	});
+
+	const svg = c(
+		"svg",
+		{
+			width: 452,
+			height: paths[BC.shape].height + 2,
+			viewbox: `0 0 262 ${paths[BC.shape].height + 2}`,
+		},
+		[gM]
+	);
+
+	svg.dimensions = new Proxy(dimensions, {
+		set(o, p, v) {
+			let tally = 0;
+			for (i = 0; i < o.length; i++) {
+				tally += o[i];
+			}
+			svg.setAttribute("width", tally);
+			svg.children[0].children[p];
+			o[p] = v;
+			return true;
+		},
+	});
+	return svg;
+};
+
+export { createBlock, createBlockPrueba };

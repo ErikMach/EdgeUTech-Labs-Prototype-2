@@ -408,32 +408,39 @@ class ExploreModel {
 			});
 		}
 		this.scene.add(this.group);
-		this.scene.add(new THREE.AxesHelper(5));
 	}
 
 	initLights() {
+		this.lights = [];
 		const lux = 0.15 * Math.PI;
-		this.scene.add(new THREE.AmbientLight(0xffffff, 0.1));
+		const light1 = new THREE.AmbientLight(0xffffff, 0.1);
+		this.lights.push(light1);
+		this.scene.add(light1);
 
 		const dirLight0 = new THREE.DirectionalLight(0xffffff, lux / 2);
 		dirLight0.position.set(0, 0.8, 0);
 		this.scene.add(dirLight0);
+		this.lights.push(dirLight0);
 
 		const dirLight = new THREE.DirectionalLight(0xffffff, lux);
 		dirLight.position.set(0, 0.8, 1);
 		this.scene.add(dirLight);
+		this.lights.push(dirLight);
 
 		const dirLight1 = new THREE.DirectionalLight(0xffffff, lux);
 		dirLight1.position.set(0.866, 0.8, -0.5);
 		this.scene.add(dirLight1);
+		this.lights.push(dirLight1);
 
 		const dirLight2 = new THREE.DirectionalLight(0xffffff, lux);
 		dirLight2.position.set(-0.866, 0.8, -0.5);
 		this.scene.add(dirLight2);
+		this.lights.push(dirLight2);
 
 		const dirLight3 = new THREE.DirectionalLight(0xffffff, lux);
 		dirLight3.position.set(0, -0.2, -1);
 		this.scene.add(dirLight3);
+		this.lights.push(dirLight3);
 	}
 
 	render() {
@@ -574,30 +581,21 @@ class ExploreModel {
 const exploreActivity = {
 	async init(hardware) {
 		this.hardware = hardware.replace(" ", "_");
-		// this.data = await fetch(`./res/hardware/${this.hardware}/configtwo.${this.hardware}.JSON`)
-		// 	.then((d) => d.json())
-		// 	.catch((e) => console.error(e));
-		// CAMBIAR
-
-		this.data = await import(`/res/hardware/${this.hardware}/configtwo.${this.hardware}.js`).then(
+		this.data = await import(`/res/hardware/${this.hardware}/config.${this.hardware}.js`).then(
 			(module) => module.default
 		);
 
-		this.model = new ExploreModel(this.data.config_3D.models, this.hardware);
-
-		setTimeout(() => {
-			// this.model.pruebaLabels();
-		}, 1000);
-
 		this.animFunctions = await import(`/res/hardware/${this.hardware}/anim.${this.hardware}.js`);
+		this.model = new ExploreModel(this.data.config_3D.models, this.hardware);
+		this.THREE = THREE;
 		this.labels();
 	},
 
 	description() {
 		const { title: t, description: d } = this.data.explore[0].data;
-		const title = c("h1", { class: "exploreTitle" }, [t]);
-		const descrip = c("p", {}, []);
-		const text = c("div", { class: "descriptionTxt" }, [title, descrip]);
+		const title = c("h1", { class: "exploreTitleText" }, [t]);
+		const descrip = c("p", { class: "descriptionPar" }, []);
+		const text = c("div", { class: "exploreTitle" }, [title, descrip]);
 		const btn = c("button", { class: "exploreBtn descriptionBtn" }, ["Explore"], {
 			click: () => {
 				this.uses();
@@ -624,13 +622,15 @@ const exploreActivity = {
 
 	uses() {
 		const { items } = this.data.explore[1].data;
-		const title = c("h1", { class: "exploreTitle" }, []);
+
+		const title = c("h1", { class: "exploreTitleText" }, []);
+		const uses = c("div", { class: "exploreTitle" }, [title]);
+
 		const btn = c("button", { class: "exploreBtn usesBtn" }, ["NEXT"], {
 			click: () => {
 				this.labels();
 			},
 		});
-		const uses = c("div", { class: "usesTitle" }, [title]);
 
 		setTimeout(() => {
 			const itemArr = [];
@@ -672,8 +672,21 @@ const exploreActivity = {
 	},
 
 	labels() {
+		const data = this.data.explore[2];
 		this.getAnims(2);
 		this.initAnim("start");
+
+		console.log("MODEL", this.model);
+
+		setTimeout(() => {
+			const space = this.model.models["LED"].getObjectByName("circuitry");
+			space.color = new THREE.Color("rgb(0,255, 0)");
+			console.log("CIRCUITRY: ", space);
+		}, 1000);
+		// QUITAR!!
+		// setTimeout(() => {
+		// 	onNextSection();
+		// }, 1000);
 
 		const onNextSection = () => {
 			const b = document.body;
@@ -688,9 +701,12 @@ const exploreActivity = {
 			m.animSceneProp("camera", "position", "current", [-0.02, 0.1, 0.01], 2000, "gentile");
 			m.animSceneProp("controls", "target", m.controls.target, m.controls.target0, 2000, "gentile");
 			m.controls.enabled = false;
-
 			this.labelList.forEach((e) => e.classList.add("inactiveExploreLabel"));
+			// this.model.initParallax();
 			this.animation();
+			// setTimeout(() => {
+			// 	this.model.initParallax();
+			// }, 2000);
 		};
 
 		document.body.style.cursor = "grab";
@@ -698,10 +714,6 @@ const exploreActivity = {
 		const mouseUp = () => (document.body.style.cursor = "grab");
 		document.body.addEventListener("mousedown", mouseDown);
 		document.body.addEventListener("mouseup", mouseUp);
-
-		const nextSectionBtn = c("button", { class: "exploreBtn labelsBtn" }, ["NEXT"], {
-			mousedown: onNextSection,
-		});
 
 		setTimeout(() => {
 			this.model.setSceneProp("controls", "enabled", true);
@@ -735,25 +747,88 @@ const exploreActivity = {
 				this.model.scene.children[2].add(sprite);
 			});
 		}
+		const nSectBtn = c("button", { class: "exploreBtn labelsBtn" }, ["NEXT"], {
+			mousedown: onNextSection,
+		});
 
-		addScene(nextSectionBtn, this.model.elem);
+		const titleTxt = c("h2", { class: "exploreTitleText" }, []);
+		const par = c("p", { class: "descriptionPar" }, []);
+
+		const text = c("div", { class: "exploreTitle" }, [titleTxt, par]);
+		const cont = c("div", {}, [text, nSectBtn]);
+
+		setTimeout(() => {
+			writeText(titleTxt, "LABELS");
+		}, 1000);
+
+		setTimeout(() => {
+			writeText(par, "Drag to move around and explore!");
+		}, 2000);
+
+		addScene(cont, this.model.elem);
 	},
 
 	animation() {
-		this.model.setSceneProp("controls", "enabled", false);
+		// this.model.controls.enabled = true;
+
+		const data = this.data.coding_function;
+		const sectionData = this.data.explore[3];
 		const { createAnim } = this.animFunctions;
-		const myFunc = () => {};
-		const a = createAnim(myFunc);
-		const title = c("h1", { class: "exploreTitle" });
-		const nexBtn = c("button", { class: "exploreBtn labelsBtn" }, ["Next"], {
+		const anim = createAnim((arg) => {
+			data.function.call(this, arg);
+		});
+
+		this.title = c("h1", { class: "exploreTitleText" }, []);
+		const titleAnim = c("div", { class: "exploreTitle" }, [this.title]);
+		const nextBtn = c("button", { class: "exploreBtn labelsBtn" }, ["Next"], {
 			click: () => {
 				this.coding();
 			},
 		});
-		addScene(a, undefined, 2000);
+
+		// ADD CONTROLS
+		// const controlSpace = c("div", { class: "controlSpace" });
+		// this.model.controls.domElement = controlSpace;
+		// console.log("CONTROLS: ", this.model.controls);
+
+		// this.model.controls.update();
+		// this.model.controls.enabled = true;
+
+		const cont = c("div", {}, [titleAnim, anim, nextBtn]);
+
+		data.initAnim.call(this);
+
+		setTimeout(() => {
+			this.model.initParallax();
+		}, 2000);
+		// GENERALICE
+		setTimeout(() => {
+			writeText(this.title, sectionData.title);
+		}, 1000);
+
+		addScene(cont, undefined, 2000);
 	},
 
-	coding() {},
+	coding() {
+		const { name, args } = this.data.coding_function;
+
+		// console.log("DATA: ", data);
+
+		this.codingBlock = createBlock("LED-Display");
+
+		// this.codingBlock = createBlock("LED-Display");
+		const title = c("h1", { class: "exploreTitleText" }, []);
+
+		// const par = c("p", {class: "explorePara"})
+
+		const cont = c("div", { class: "exploreTitle" }, [title, this.codingBlock]);
+
+		setTimeout(() => {
+			writeText(title, "Time to Code!");
+		}, 1000);
+
+		addScene(cont, undefined, 1000);
+	},
 
 	completion() {},
 
@@ -886,7 +961,8 @@ const exploreActivity = {
 		const closeBtn = c("div", { class: "labelCloseBtn" }, [c("h2", {}, ["X"])], {
 			mousedown: onCloseBtn,
 		});
-		const slideTxt = c("p", {}, [content]);
+		const slideTxt = c("p", {}, []);
+		slideTxt.innerHTML = content;
 		const slideCont = c("div", { class: "slideCont" }, [closeBtn, slideTxt]);
 		const labelTextCont = c("div", { class: `labelTagCont ${dir} labelInactive` }, [
 			c("div", {}, [slideCont, vectorRight]),

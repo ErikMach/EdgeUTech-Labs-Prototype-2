@@ -126,6 +126,10 @@ const cSvg = (tagName, attrs = {}, children = [], events = {}) => {
 	return elem;
 };
 
+const scalePercent = (start, end, curr) => {
+	return (curr - start) / (end - start);
+};
+
 window.addEventListener(
 	"DOMContentLoaded",
 	() => {

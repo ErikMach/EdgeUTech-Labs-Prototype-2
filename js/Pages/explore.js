@@ -88,4 +88,4 @@ document.getElementById("explorePage").addEventListener("scroll", blurBott, { pa
 
 // QUITAR
 change("explore");
-document.getElementById("RGB LED").dispatchEvent(new Event("click"));
+document.getElementById("LED").dispatchEvent(new Event("click"));

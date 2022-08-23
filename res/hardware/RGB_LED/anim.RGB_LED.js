@@ -1,12 +1,27 @@
 const abort = new AbortController();
 const id = "exploreAnim2D-RGB";
 const ranges = {};
+let docFrag;
+let graphCont;
 
 const animate = (e, func) => {
-	const target = e.composedPath()[0];
-	console.log(e.target.value);
+	// console.log(e.currentTarget);
+	const c = getColorData();
+	// const target = e.composedPath()[0];
+	const input = e.currentTarget;
+	const labels = graphCont.getElementsByTagName("label");
+
+	for (let label of labels) {
+		if (label.getAttribute("htmlfor") === input.getAttribute("id")) {
+			label.innerHTML = input.value;
+		}
+	}
+
+	graphCont.querySelector(
+		".graphContentCont"
+	).style.backgroundColor = `rgb(${c[0]},${c[1]},${c[2]})`;
 	// target.labels[0].textContent = target.value;
-	func(getColorData());
+	func(c);
 };
 
 const getColorData = () => {
@@ -42,8 +57,8 @@ const createColorGraph = (func) => {
 	const graphTitleCont = c("div", {
 		id: id,
 		class: "graphTitleCont",
-		textContent: "Mix the colours!",
 	});
+
 	const xLabelCont = c("div", { class: "xLabelCont" });
 	const yLabelCont = c("div", { class: "yLabelCont" });
 
@@ -67,7 +82,6 @@ const createColorGraph = (func) => {
 					});
 				},
 				input: (e) => {
-					console.log("INPUT! ");
 					changeVal(e, func);
 				},
 			}
@@ -82,6 +96,7 @@ const createColorGraph = (func) => {
 				},
 			}
 		);
+
 		const dataCont = c("div", { class: "dataCont" }, [dataValue, dataRange]);
 		const dataLabel = c("div", { class: "dataLabel", textContent: color });
 		const dataColumn = c("div", { class: "dataColumn" }, [dataLabel, dataCont]);
@@ -105,15 +120,15 @@ const createAnim = (func) => {
 		return;
 	}
 
-	const docFrag = c("div", { id: id, style: "width: 500px; height: 500px;" });
-
+	docFrag = c("div", { id: id, style: "width: 500px; height: 500px;" });
 	const styleLink = document.createElement("link");
 	styleLink.setAttribute("rel", "stylesheet");
 	styleLink.setAttribute("href", "./res/hardware/RGB_LED/anim.RGB_LED.css");
 
 	const fragShadow = docFrag.attachShadow({ mode: "closed" });
 	fragShadow.appendChild(styleLink);
-	fragShadow.appendChild(createColorGraph(func));
+	graphCont = createColorGraph(func);
+	fragShadow.appendChild(graphCont);
 
 	return docFrag;
 };
@@ -124,3 +139,5 @@ const clearAnim = () => {
 };
 
 export { createAnim, clearAnim };
+
+// styleLink.setAttribute("href", "./res/hardware/LED/anim.LED.css");
