@@ -4,8 +4,7 @@ const ranges = {};
 
 const animate = (e, func) => {
 	const target = e.composedPath()[0];
-	console.log(e.target.value);
-	// target.labels[0].textContent = target.value;
+	target.labels[0].textContent = target.value;
 	func(getColorData());
 };
 
@@ -15,6 +14,9 @@ const getColorData = () => {
 		colorData.push(Object.values(ranges)[i].value);
 	}
 	return colorData;
+
+// This one-liner is on average 70x slower than what's above:
+	return Object.values(ranges).map(r => r.value);
 };
 
 const changeVal = (e, func) => {
@@ -34,7 +36,7 @@ const changeVal = (e, func) => {
 	} else if (target.textContent === "") {
 		target.textContent = "0";
 	}
-	ranges[target.htmlFor].value = target.textContent;
+	ranges[target.for].value = target.textContent;
 	func(getColorData());
 };
 
@@ -52,7 +54,7 @@ const createColorGraph = (func) => {
 	["R", "G", "B"].forEach((color) => {
 		const dataValue = c(
 			"label",
-			{ class: "dataValue", htmlFor: `${color}in`, textContent: "0", contentEditable: "true" },
+			{ class: "dataValue", for: `${color}in`, textContent: "0", contentEditable: "true" },
 			[],
 			{
 				mouseDown: (e) => {
@@ -67,7 +69,7 @@ const createColorGraph = (func) => {
 					});
 				},
 				input: (e) => {
-					console.log("INPUT! ");
+					console.log("INPUT!");
 					changeVal(e, func);
 				},
 			}
