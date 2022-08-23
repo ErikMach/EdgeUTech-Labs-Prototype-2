@@ -408,6 +408,7 @@ class ExploreModel {
 			});
 		}
 		this.scene.add(this.group);
+		this.scene.add(new THREE.AxesHelper(5));
 	}
 
 	initLights() {

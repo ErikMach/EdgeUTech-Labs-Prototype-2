@@ -68,10 +68,6 @@ export default {
 				max: 0,
 			},
 		],
-		// RETURNS VALUES OF INPUT
-		//
-
-		create_block: { anim: {}, callback: () => anim.init() },
 
 		function: (r, g, b) => {
 			for (let i = 0; i < 2; i++) {
@@ -103,7 +99,12 @@ export default {
 			}
 		},
 
-		comment: "something like: RGB.getLEDs.forEach(LED => glow(LED));",
+	function_3D: (r, g, b) => {
+			const brightness = (r + g + b)/(3*255);
+			const normalisedColors = [r, g, b].map(c => c/255);
+			// engine.setEmissive(mesh_name, normalisedColors, brightness);
+			// engine.setGlow(mesh_name, brightness);
+			console.log("RGB is glowing", normalisedColors, "at", brightness);			
 	},
 
 	explore: {
