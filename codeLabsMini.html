@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>CodeLabsMini | EdgeUTech</title>
+  </head>
+  <style>
+div#explorePageCodeDiv {
+    top: 50px;
+    left: 250px;
+    height: 200px;
+    width: 66%;
+    position: relative;
+    border: 2px solid black;
+}
+  </style>
+<body>
+
+  <div id="explorePageCodeDiv"></div>
+
+
+  <div id="codeLabsCont" class="abbyNormal">
+    <div class="blocksMenuCont">
+      <div class="blocksMenuBar"></div>
+      <div class="blocksMenu"></div>
+    </div>
+
+    <div class="codingSpace"></div>
+
+
+    <div class="codingSpace arduinoSpace" style="">
+      <div class="codeLngTabCont"></div>
+      <table id="arduinoTable"></table>
+    </div>
+  </div>
+
+  <script>
+/*
+ * This `callback` will be the 3D function (e.g. glowing, rotating, ...)
+ */
+const callback = (a) => {
+  console.log(`rgb(${[...a]})`);
+  document.getElementById("explorePageCodeDiv").style.backgroundColor = `rgb(${[...a]})`;
+};
+
+async function do_stuff() {
+  const { createCodeLabsMini } = await import("./js/codeLabsMini.js");
+
+/*
+ * Container can be of any size
+ * a shadow root will be appended to the container
+ * the shadow root contents will have style="width: 100%; height: 100%"
+ */
+  const container = document.getElementById("explorePageCodeDiv");
+
+/*
+ * Currently only supports *1* OUTPUT block
+ * You can use this with RGB, LED, DC Motor...
+ * next version (that supports inputs) will be backwards compatible
+ */
+  const blocksConfigArr = [
+    {
+	shape: "command-single",
+	"innerConfig": [
+	  {"type": "text", "value": "RGB LED ("},
+	  {"type": "input", "subtype": "circular", "specs": {"type": "number", "subtype": "integer", "range": {"min": 0, "max": 255}, "allowedChars":/[0-9]/}},
+	  {"type": "text", "value": ","},
+	  {"type": "input", "subtype": "circular", "specs": {"type": "number", "subtype": "integer", "range": {"min": 0, "max": 255}, "allowedChars":/[0-9]/}},
+	  {"type": "text", "value": ","},
+	  {"type": "input", "subtype": "circular", "specs": {"type": "number", "subtype": "integer", "range": {"min": 0, "max": 255}, "allowedChars":/[0-9]/}},
+	  {"type": "text", "value": ")"}
+	],
+	function: function () {
+	  const args = [];
+	  const inputs = this.getElementsByClassName("inputCont");
+	  for (let i=0; i<inputs.length; i++) {
+	    args.push(+inputs[i].value);
+	  }
+	  return args;
+	}
+    }
+  ];
+/*
+ * This function creates it the container:
+ */
+  createCodeLabsMini(container, blocksConfigArr, {"draggable": false}, callback);
+};
+
+do_stuff();
+  </script>
+</body>
+</html>
