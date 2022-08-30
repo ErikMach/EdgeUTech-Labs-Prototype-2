@@ -1,0 +1,349 @@
+:host {
+  --sb-blue: #4c97ff;
+  --sb-blue-stroke: #2266c5;
+  --sb-purple: #9966ff;
+  --sb-lavender: #9966ff;
+  --sb-yellow: #ffbf00;
+  --sb-yellow-stroke: #d6a100;
+  --sb-amber: #ffab19;
+  --sb-amber-stroke: #c18313;
+  --sb-teal: #5cb1d6;
+  --sb-green: #59c059;
+  --sb-green-stroke: #389438;
+  --sb-orange: #ff8c1a;
+  --sb-orange-stroke: #db6e00;
+  --sb-rose: #ff6680;
+}
+
+div.codingSpace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+div.buttonHolder {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+button.runBtn {
+  position: relative;
+  top: 0;
+  width: 120px;
+  padding: 15px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: transparent;
+  box-shadow: 0 0 0 0 black;
+  cursor: pointer;
+  transition: top 0.2s, box-shadow 0.2s;
+}
+
+button.runBtn:hover {
+  top: -3px;
+  box-shadow: 0 3px 5px black;
+}
+
+button.runBtn:active {
+  transition: top 0.05s, box-shadow 0.05s;
+  top: 0;
+  box-shadow: 0 0 0 black;
+}
+
+svg > g.mainPathCont {
+  cursor: grab;
+}
+
+svg.noDrag > g.mainPathCont {
+  cursor: auto;
+}
+
+svg, svg > g.mainPathCont {
+  pointer-events: visibleFill;
+}
+
+svg.grabbing > g.mainPathCont {
+  cursor: grabbing;
+  z-index: 2;
+}
+
+svg.pseudoBlock > * {
+  fill: gray;
+  stroke: gray;
+  opacity: 0.6;
+}
+
+svg.control > g.mainPathCont {
+  fill: var(--sb-amber);
+  stroke: var(--sb-amber-stroke);
+}
+svg.control .inputPath {
+  fill: var(--sb-amber-stroke);
+}
+svg.control .optBoxCont {
+  background-color: var(--sb-amber);
+}
+svg.control g.inputPath > foreignObject.SVGInput > input.inputCont.canDropInput {
+  outline: 2px solid var(--sb-amber);
+}
+
+svg.operators > g.mainPathCont {
+  fill: var(--sb-green);
+  stroke: var(--sb-green-stroke);
+}
+svg.operators .inputPath {
+  fill: var(--sb-green-stroke);
+}
+svg.operators .optBoxCont {
+  background-color: var(--sb-green);
+}
+svg.operators g.inputPath > foreignObject.SVGInput > input.inputCont.canDropInput {
+  outline: 2px solid var(--sb-green);
+}
+
+svg.variables > g.mainPathCont {
+  fill: var(--sb-orange);
+  stroke: var(--sb-orange-stroke);
+}
+svg.variables .inputPath {
+  fill: var(--sb-orange-stroke);
+}
+svg.variables .optBoxCont {
+  background-color: var(--sb-orange);
+}
+svg.variables g.inputPath > foreignObject.SVGInput > input.inputCont.canDropInput {
+  outline: 2px solid var(--sb-orange);
+}
+
+svg.eutblocks > g.mainPathCont {
+  fill: var(--sb-blue);
+  stroke: var(--sb-blue-stroke);
+}
+svg.eutblocks .inputPath {
+  fill: var(--sb-blue-stroke);
+}
+svg.eutblocks .optBoxCont {
+  background-color: var(--sb-blue);
+}
+svg.eutblocks g.inputPath > foreignObject.SVGInput > input.inputCont.canDropInput {
+  outline: 2px solid var(--sb-blue);
+}
+
+/* Done in JS instead
+svg.editing {
+  z-index: 1;
+}
+*/
+
+.outputBoolean {
+  fill: #59c059;
+  stroke: var(--sb-green);
+}
+text {
+  fill: white;
+  stroke: none;
+  font-size: 24px;
+  font-family: helvetica;
+  user-select: none;
+}
+
+
+/* Attempt to make every second one lighter (mebe add .lighter in JS ??)
+.blockCodeLine > svg > g.mainPathCont > foreignObject.SVGChildCont > div.childCont > svg {
+  opacity: 0.3;
+}
+*/
+
+.blockCodeLine > svg {
+  position: relative !important;
+}
+
+.blockCodeLine {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+svg > g.mainPathCont > foreignObject.SVGChildCont > div.childCont > svg {
+  position: relative;
+  left: 0px;
+}
+
+foreignObject.SVGChildCont > * {
+  pointer-events: visibleFill;
+}
+
+foreignObject.SVGChildCont {
+  overflow: visible;
+  pointer-events: none;
+}
+.childCont {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 00%;
+  height: 00%;
+  overflow-x: visible;
+  overflow-y: hidden;
+  overflow: visible;
+}
+
+foreignObject.SVGBool {
+  
+}
+
+
+g.inputPath > path.canDrop {
+  stroke: white;
+  stroke-width: 3px;
+}
+
+g.inputPath > rect.canDrop {
+  stroke: white;
+  stroke-width: 10px;
+}
+
+foreignObject.SVGMenu {
+  overflow: visible;
+}
+.menuCont, .menuCont > .optBox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+  font-family: helvetica;
+  user-select: none;
+  cursor: pointer;
+}
+.menuCont {
+  overflow: hidden;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+.menuCont:focus-visible {
+  outline: none;
+}
+.menuCont:focus-visible > .selectedOpt {
+  background-color: #44444433;
+}
+.menuCont:before, .menuCont:after {
+  content: "";
+  position: absolute;
+  top: 14.5px;
+  right: 0;
+  height: 3px;
+  width: 10px;
+  background-color: black;
+}
+.menuCont:before {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  right: 8px;
+  transform: rotate(45deg);
+}
+.menuCont:after {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  right: 3px;
+  transform: rotate(-45deg);
+}
+.menuCont .optBox {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  width: calc(100% - 8px);
+  padding: 0 4px;
+  border-radius: 4px;
+  z-index: 3;
+}
+.openMenuCont, svg {
+  overflow: visible;
+}
+.optBox:hover {
+  cursor: pointer;
+  background-color: #44444433;
+}
+.optBoxCont {
+  position: relative;
+  top: 22px;
+  padding: 2px;
+  box-shadow: 0 0 5px gray;
+  border-radius: 4px;
+  z-index: 1;
+}
+.optBoxCont:before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: calc(50% - 5px);
+  width: 10px;
+  height: 10px;
+  background-color: inherit;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+.selectedOpt {
+  position: relative;
+  width: calc(100% - 8px);
+  height: 32px;
+  min-height: 32px;
+  padding: 0 4px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 4px;
+}
+
+foreignObject.SVGInput {
+  overflow: visible;
+}
+
+input.inputCont {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 32px;
+  border-radius: 26px;
+  width: 100%;
+  border: none;
+  padding: 0;
+  text-align: center;
+  font-size: 24px;
+  font-family: helvetica;
+  z-index: 2;
+}
+input.inputCont:focus-visible {
+  outline: none;
+}
+
+div.dataChildCont {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+div.dataChildCont > svg {
+  top: -5px !important;
+  left: -1px !important;
+}
+
+div.dataChildCont.inFront {
+  z-index: 3;
+}
+
+div.boolSpace {
+  width: 100%;
+}
