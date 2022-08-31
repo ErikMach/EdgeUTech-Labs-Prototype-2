@@ -2,18 +2,18 @@ export default {
 	config_3D: {
 		models: {
 			base4x4: {
-				path: "/res/glb/hardware_glb_common",
+				path: "../../res/glb/hardware_glb_common",
 				props: {
 					position: [0, 0, 0],
 					rotation: [0, 0, 0],
 				},
 			},
 			top4x4: {
-				path: "/res/glb/hardware_glb_common",
+				path: "../../res/glb/hardware_glb_common",
 				props: {},
 			},
 			RGB_LED: {
-				path: "/res/hardware/RGB_LED",
+				path: "../../res/hardware/RGB_LED",
 				props: {
 					position: [-0.00003354529326315969, 0.006070385221391916, -0.00007747599738650024],
 				},
