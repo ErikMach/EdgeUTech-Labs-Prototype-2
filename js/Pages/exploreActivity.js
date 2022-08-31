@@ -375,7 +375,7 @@ class ExploreModel {
 
 	async initModels() {
 		const getModel = (name) => {
-			const url = `${this.modelsData[name].path}/model.${name}.glb`;
+			const url = `../../${this.modelsData[name].path}/model.${name}.glb`;
 			const loader = new GLTFLoader();
 			const dracoLoader = new DRACOLoader();
 			dracoLoader.setDecoderPath("./js/THREEm/");
