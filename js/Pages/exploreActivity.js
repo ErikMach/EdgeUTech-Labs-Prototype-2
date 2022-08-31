@@ -582,11 +582,11 @@ class ExploreModel {
 const exploreActivity = {
 	async init(hardware) {
 		this.hardware = hardware.replace(" ", "_");
-		this.data = await import(`./res/hardware/${this.hardware}/config.${this.hardware}.js`).then(
+		this.data = await import(`../../res/hardware/${this.hardware}/config.${this.hardware}.js`).then(
 			(module) => module.default
 		);
 
-		this.animFunctions = await import(`./res/hardware/${this.hardware}/anim.${this.hardware}.js`);
+		this.animFunctions = await import(`../../res/hardware/${this.hardware}/anim.${this.hardware}.js`);
 		this.model = new ExploreModel(this.data.config_3D.models, this.hardware);
 		this.THREE = THREE;
 		this.description();
