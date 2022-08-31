@@ -586,7 +586,7 @@ const exploreActivity = {
 			(module) => module.default
 		);
 
-		this.animFunctions = await import(`/res/hardware/${this.hardware}/anim.${this.hardware}.js`);
+		this.animFunctions = await import(`./res/hardware/${this.hardware}/anim.${this.hardware}.js`);
 		this.model = new ExploreModel(this.data.config_3D.models, this.hardware);
 		this.THREE = THREE;
 		this.description();
